@@ -1,0 +1,105 @@
+
+.clickable {
+    cursor: pointer;
+}
+
+.thumbnail {
+    border-radius: 100%;
+}
+.center {
+    margin: auto;
+   
+  
+    padding: 10px;
+}
+.ng-touched.ng-invalid{
+    border: 1px solid red;
+}
+
+
+.button_blinking {
+  background-color: #428bca;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+  border: none;
+  color: #FFFFFF;
+  cursor: pointer;
+  display: inline-block;
+  font-family: Arial;
+  font-size: 20px;
+  padding: 5px 10px;
+  text-align: center;
+  text-decoration: none;
+}
+@-webkit-keyframes glowing {
+  0% { background-color: #2e8bcc; -webkit-box-shadow: 0 0 3px #2e8bcc; }
+  50% { background-color: #3498db; -webkit-box-shadow: 0 0 40px #3498db; }
+  100% { background-color: #357ebd; -webkit-box-shadow: 0 0 3px #357ebd; }
+}
+
+@-moz-keyframes glowing {
+  0% { background-color: #2e8bcc; -moz-box-shadow: 0 0 3px #2e8bcc; }
+  50% { background-color: #3498db; -moz-box-shadow: 0 0 40px #3498db; }
+  100% { background-color: #357ebd; -moz-box-shadow: 0 0 3px #357ebd; }
+}
+
+@-o-keyframes glowing {
+  0% { background-color: #2e8bcc; box-shadow: 0 0 3px #2e8bcc; }
+  50% { background-color: #3498db; box-shadow: 0 0 40px #3498db; }
+  100% { background-color: #357ebd; box-shadow: 0 0 3px #357ebd; }
+}
+
+@keyframes glowing {
+  0% { background-color: #2e8bcc; box-shadow: 0 0 3px #2e8bcc; }
+  50% { background-color: #3498db; box-shadow: 0 0 40px #3498db; }
+  100% { background-color: #357ebd; box-shadow: 0 0 3px #357ebd; }
+}
+
+.button_blinking {
+  -webkit-animation: glowing 1500ms infinite;
+  -moz-animation: glowing 1500ms infinite;
+  -o-animation: glowing 1500ms infinite;
+  animation: glowing 1500ms infinite;
+}
+
+#snackbar {
+    visibility: hidden;
+    min-width: 250px;
+    margin-left: -125px;
+    background-color: #2ecc71;
+    color: #fff;
+    text-align: center;
+    border-radius: 2px;
+    padding: 16px;
+    position: fixed;
+    z-index: 1;
+    left: 50%;
+    bottom: 30px;
+    font-size: 17px;
+}
+
+#snackbar.show {
+    visibility: visible;
+    -webkit-animation: fadein 0.5s, fadeout 0.5s 2.5s;
+    animation: fadein 0.5s, fadeout 0.5s 2.5s;
+}
+
+@-webkit-keyframes fadein {
+    from {bottom: 0; opacity: 0;} 
+    to {bottom: 30px; opacity: 1;}
+}
+
+@keyframes fadein {
+    from {bottom: 0; opacity: 0;}
+    to {bottom: 30px; opacity: 1;}
+}
+
+@-webkit-keyframes fadeout {
+    from {bottom: 30px; opacity: 1;} 
+    to {bottom: 0; opacity: 0;}
+}
+
+@keyframes fadeout {
+    from {bottom: 30px; opacity: 1;}
+    to {bottom: 0; opacity: 0;}
+}

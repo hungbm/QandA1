@@ -1,0 +1,98 @@
+<div *ngIf="topic">
+    <div  class="panel panel-primary">
+        <div class="panel-heading"><h3>{{topic.question.title}}</h3></div>
+        <div class="panel-body">
+            <table style="width:100%">
+           <div class="jumbotron">
+                <tr>
+                    <td>
+                        <div style="padding-right: 30px;" class="btn-group-vertical">
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span></button>
+                            <button style="min-width: 45px;pointer-events: none;" type="button" class="btn btn-default">{{topic.upvote}}</button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></button>
+                        </div>
+                    </td>
+                    <td >  
+                        {{topic.question.content}}                        
+                    </td>
+                </tr>
+           </div>     
+           </table>
+        </div>
+    </div>
+
+    <div *ngFor="#answer of answers;">
+        <div *ngIf="answer.isBest"   class="panel panel-success">
+            <div class="panel-heading"><h3>Câu trả lời được chấp nhận </h3></div>
+            <div class="panel-body">
+            <table style="width:100%">
+            <div class="jumbotron">
+                    <tr>
+                        <td>
+                            <div style="padding-right: 30px;" class="btn-group-vertical">
+                                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span></button>
+                                <button style="min-width: 45px;pointer-events: none;" type="button" class="btn btn-default">{{answer.upvote}}</button>
+                                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></button>
+                            </div>
+                        </td>
+                        <td>
+                            {{answer.content}}
+                        </td>
+                    </tr>
+            </div>     
+            </table>
+            </div>
+        </div>
+    </div>
+    <div style="width: 100%; text-align: center;">
+        <p>
+        <button style="width: 80%;margin: auto;" data-toggle="collapse" data-target="#reply" type="button" class="btn btn-primary btn-lg button_blinking">Đóng góp ý kiến</button>
+        </p>
+    </div>
+
+    <div class="panel panel-default collapse " id="reply" >
+        <div class="panel-heading">Đóng góp ý kiến</div>
+        <div class="panel-body">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)" id="commentForm">
+                <div class="form-group">
+                    <label for="comment">Ý kiến:</label>
+                    <textarea ngControl="comment" class="form-control" rows="5" id="comment" name="comment" #comment="ngForm"></textarea>
+                </div>
+                <p>
+                    <button  type="submit" class="btn btn-primary btn-lg pull-left">Gửi</button>
+                    <button  type="button" (click)="clearForm(f)" class="btn btn-defalt btn-lg pull-right">Xóa sạch</button>
+                </p>
+            </form>
+        </div>
+    </div>
+    <div style="text-align: center" *ngIf = "isLoading">
+        <i class = "fa fa-spinner fa-spin fa-3x"></i>
+    </div>
+
+    <div class="panel panel-info">
+        <div class="panel-heading"><h3> {{topic.answers.length}} Câu trả lời</h3></div>
+
+        <div *ngFor="#answer of answers;" class="panel-body" >
+           <table style="width:100%">
+           <div class="jumbotron"   [ngStyle]="{ border: answer.isBest ? '5px solid #2ecc71': '' } ">
+                <tr>
+                    <td>
+                        <div style="padding-right: 30px;" class="btn-group-vertical">
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span></button>
+                            <button style="min-width: 45px;pointer-events: none;" type="button" class="btn btn-default">{{answer.upvote}}</button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></button>
+                        </div>
+                    </td>
+                    <td >
+                    {{answer.content}}
+                     </td>
+                </tr>
+           </div>     
+           </table>
+        </div>
+
+        
+    </div>
+    <div id="snackbar">Đóng góp ý kiến thành công</div>
+    
+    </div>

@@ -1,0 +1,48 @@
+<div class="panel panel-primary">
+	<div class="panel-heading ">Đặt câu hỏi</div>
+	<div class="panel-body">
+		 <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+			<div ngModelGroup="name">
+				<table width="100%">
+					<tr>
+						<td width="10%" style="padding-top:10px; padding-bottom:10px;">
+							Tiêu đề
+						</td>
+						<td width="70%" style="padding-top:10px; padding-bottom:10px;">
+							<div>
+								<input 
+                                    ngControl="title" 
+                                    #title="ngForm" 
+                                    id="title"
+                                    name="title"  
+                                    type="text" 
+                                    class="form-control" 
+                                    required 
+                                    ngModel
+                                    placeholder="Câu hỏi của bạn là gì? Càng cụ thể càng tốt">
+							</div>
+							<div class="alert alert-danger" *ngIf="title.touched && !title.valid">
+								Tiêu đề không được để trống
+							</div>
+						</td>
+					</tr>
+					<tr>
+						<td colspan="2">
+							<div class="form-group">
+								<label for="content">Nội dung:</label>
+								<textarea ngControl="content" #content="ngForm" id="content"  name="content" class="form-control" rows="5" required ngModel id="comment"></textarea>
+							</div>
+							<div class="alert alert-danger" *ngIf="content.touched && !content.valid">
+								Nội dung không được để trống
+							</div>
+							<p>
+								<button type="submit" class="btn btn-primary btn-lg pull-left" [disabled]="!f.valid" type="submit">Gửi</button>
+								<button type="button" class="btn btn-defalt btn-lg pull-right">Xóa sạch</button>
+							</p>
+						</td>
+					</tr>
+				</table>
+			</div>
+		</form>
+	</div>
+</div>

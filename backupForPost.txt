@@ -1,0 +1,95 @@
+<div *ngIf="topic">
+    <div  class="panel panel-primary">
+        <div class="panel-heading"><h3>{{topic.question.title}}</h3></div>
+        <div class="panel-body">
+            <table style="width:100%">
+           <div class="jumbotron">
+                <tr>
+                    <td>
+                        <div style="padding-right: 30px;" class="btn-group-vertical">
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span></button>
+                            <button style="min-width: 45px;pointer-events: none;" type="button" class="btn btn-default">{{topic.upvote}}</button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></button>
+                        </div>
+                    </td>
+                    <td >  
+                        {{topic.question.content}}                        
+                    </td>
+                </tr>
+           </div>     
+           </table>
+        </div>
+    </div>
+
+    <div *ngFor="#answer of topic.answers;">
+        <div *ngIf="answer.answer.isBest"   class="panel panel-success">
+            <div class="panel-heading"><h3>Câu trả lời được chấp nhận </h3></div>
+            <div class="panel-body">
+            <table style="width:100%">
+            <div class="jumbotron">
+                    <tr>
+                        <td>
+                            <div style="padding-right: 30px;" class="btn-group-vertical">
+                                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span></button>
+                                <button style="min-width: 45px;pointer-events: none;" type="button" class="btn btn-default">{{answer.answer.upvote}}</button>
+                                <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></button>
+                            </div>
+                        </td>
+                        <td>
+                            {{answers}}
+                        </td>
+                    </tr>
+            </div>     
+            </table>
+            </div>
+        </div>
+    </div>
+    <div style="width: 100%; text-align: center;">
+        <p>
+        <button style="width: 80%;margin: auto;" data-toggle="collapse" data-target="#reply" type="button" class="btn btn-primary btn-lg button_blinking">Đóng góp ý kiến</button>
+        </p>
+    </div>
+
+    <div class="panel panel-default collapse " id="reply" >
+        <div class="panel-heading">Đóng góp ý kiến</div>
+        <div class="panel-body">
+            <form #f="ngForm" (ngSubmit)="onSubmit(f)">
+                <div class="form-group">
+                    <label for="comment">Ý kiến:</label>
+                    <textarea class="form-control" rows="5" id="comment" name="comment"></textarea>
+                </div>
+                <p>
+                    <button  type="button" class="btn btn-primary btn-lg pull-left">Gửi</button>
+                    <button  type="button" class="btn btn-defalt btn-lg pull-right">Xóa sạch</button>
+                </p>
+            </form>
+        </div>
+    </div>
+
+    <div class="panel panel-info">
+        <div class="panel-heading"><h3> {{topic.answers.length}} Câu trả lời</h3></div>
+
+        <div *ngFor="#answer of topic.answers;" class="panel-body" >
+           <table style="width:100%">
+           <div class="jumbotron"  [ngStyle]="{ border: answer.answer.isBest ? '5px solid #2ecc71': '' } ">
+                <tr>
+                    <td>
+                        <div style="padding-right: 30px;" class="btn-group-vertical">
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span></button>
+                            <button style="min-width: 45px;pointer-events: none;" type="button" class="btn btn-default">{{answer.answer.upvote}}</button>
+                            <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-bottom" aria-hidden="true"></span></button>
+                        </div>
+                    </td>
+                    <td >
+                    {{answers}}
+                     </td>
+                </tr>
+           </div>     
+           </table>
+        </div>
+
+        
+    </div>
+
+    
+    </div>
