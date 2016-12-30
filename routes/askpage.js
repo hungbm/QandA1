@@ -2,9 +2,6 @@ var express = require('express');
 var router = express.Router();
 var Question = require('../models/question');
 
-//var mongojs = require('mongojs');
-//var db = mongojs('mongodb://hungbm:31121993@ds119548.mlab.com:19548/qanda', ['topics']);
-
 
 router.post('/', function(req, res, next){
   var question = new Question({
@@ -34,18 +31,9 @@ router.post('/', function(req, res, next){
       });
       
   });
-  //res.redirect('/');
+
   
 });
 
 
-// router.post('/', function(req, res, next){
-//     var question = req.body;
-//         db.topics.save(question, function(err, result){
-//             if(err){
-//                 res.send(err);
-//             }
-//             res.json(result);
-//         });
-// });
 module.exports = router;

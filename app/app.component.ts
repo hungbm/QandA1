@@ -10,7 +10,6 @@ import {PostContentComponent} from './posts/postcontent.component';
 import {AskPageComponent} from './forms/askquestion/askpage.component';
 import {MyProfileComponent} from './users/myprofile.component';
 import {ListUserComponent} from './users/listuser.component';
-
 import {bootstrap} from 'angular2/platform/browser';
 import {HashLocationStrategy} from "angular2/router";
 import {LocationStrategy} from "angular2/router";

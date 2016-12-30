@@ -6,116 +6,152 @@
 					Đăng Nhập
 				</div>
 				<div class="panel-body">
-					<table style="width: 100%;">
-						<tr>
-							<td width="30%" style="padding-top:10px; padding-bottom:10px;">
-								ID
-							</td>
-							<td width="70%" style="padding-top:10px; padding-bottom:10px;">
-								<div>
-									<input type="text" class="form-control" placeholder="ID">
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td width="30%" style=" padding-bottom:10px;">
-								Password
-							</td>
-							<td width="70%" style=" padding-bottom:10px;">
-								<div>
-									<input type="text" class="form-control" placeholder="Password">
-								</div>
-							</td>
-						</tr>
-						<tr>
-							<td width="30%">
-								Capcha
-							</td>
-							<td width="70%">
-								<div>
-									<input type="text" class="form-control" placeholder="Capcha">
-								</div>
-							</td>
+					<!--<form [formControl]="formIn" (ngSubmit)="signIn()">-->
+					<form #formIn="ngForm" (ngSubmit)="signIn(formIn.form)">
+						<!--<form [ngFormModel] = "formIn">	-->
+						<div class="form-group">
+							<table style="width: 100%;">
 
-						</tr>
-						<tr>
-							<td style="padding-top:10px; padding-bottom:10px;">
+								<tr>
+									<td width="30%" style="padding-top:10px; padding-bottom:10px;">
+										ID
+									</td>
+									<td width="70%" style="padding-top:10px; padding-bottom:10px;">
+										<div>
+											<!--<input type="text" class="form-control" id="usernameIn" formControlName="usernameIn" name="usernameIn" placeholder="ID" required>-->
+											<input type="text" class="form-control" id="usernameIn" ngControl="usernameIn" #usernameIn="ngForm" name="usernameIn" placeholder="ID" required>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td width="30%" style=" padding-bottom:10px;">
+										Password
+									</td>
+									<td width="70%" style=" padding-bottom:10px;">
+										<div>
+											<!--<input type="text"  class="form-control"  id="passwordIn" name="passwordIn" placeholder="Password" formControlName="passwordIn" required>-->
+											<input type="password" class="form-control" id="passwordIn" name="passwordIn" #passwordIn="ngForm" placeholder="Password" ngControl="passwordIn" required>
+										</div>
+									</td>
+								</tr>
+								<tr>
+									<td width="30%">
+										Capcha
+									</td>
+									<td width="70%">
+										<div>
+											<input type="text" class="form-control" placeholder=" Capcha ">
+										</div>
+									</td>
 
-								<a href="#" style="text-decoration: none; ">
+								</tr>
+								<tr>
+									<td style="padding-top:10px; padding-bottom:10px; ">
+
+										<a href="# " style="text-decoration: none; ">
                                         Quên mật khẩu?
                                     </a>
 
-							</td>
-							<td style="padding-top:10px; padding-bottom:10px;">
-								<button type="button" class="btn btn-primary" style=" float: right;">Sign In</button>
-							</td>
-						</tr>
-					</table>
+									</td>
+									<td style="padding-top:10px; padding-bottom:10px; ">
+										<button type="submit " class="btn btn-primary " style=" float: right; ">Sign In</button>
+									</td>
+								</tr>
 
+							</table>
+						</div>
+					</form>
 				</div>
 			</div>
 		</td>
-		<td colspan="1" width="1%">
+		<td colspan="1 " width="1% ">
 
 		</td>
-		<td colspan="5" width="55%">
-			<div class="panel panel-primary">
-				<div class="panel-heading">
+		<td colspan="5 " width="55% ">
+			<div class="panel panel-primary ">
+				<div class="panel-heading ">
 					Đăng Ký
 				</div>
-				<div class="panel-body">
-					<form #formSignUp="ngForm" (ngSubmit)="SignUp(formSignUp)">
-						<table style="width: 100%;">
-							<tr>
-								<td width="30%" style="padding-top:10px; padding-bottom:10px;">
-									ID
-								</td>
-								<td width="60%" style="padding-top:10px; padding-bottom:10px;">
-									<div>
-										<input type="text" class="form-control" placeholder="Username để đăng nhập" #username="ngForm" id="username" name="username">
-									</div>
-								</td>
-								<td width="10%">
-									<i style="padding-left :10px;" class="fa fa-check" aria-hidden="true"></i>
-								</td>
-							</tr>
-							<tr>
-								<td width="30%" style=" padding-bottom:10px;">
-									Password
-								</td>
-								<td width="70%" style=" padding-bottom:10px;">
-									<div>
-										<input type="text" class="form-control" placeholder="Mật khẩu" #password = "ngForm" id="password" name="password">
-									</div>
-								</td>
-								<td width="10%" style=" padding-bottom:10px;">
-									<i style="padding-left :10px;" class="fa fa-check" aria-hidden="true"></i>
-								</td>
-							</tr>
-							<tr>
-								<td width="30%">
-									Email
-								</td>
-								<td width="70%">
-									<div>
-										<input type="text" class="form-control" placeholder="Email" #email="ngForm" id="email" name ="email">
-									</div>
-								</td>
-								<td width="10%">
-									<i style="padding-left :10px;" class="fa fa-check" aria-hidden="true"></i>
-								</td>
-							</tr>
-							<tr>
-								<td style="padding-top:10px; padding-bottom:10px;">
-								</td>
-								<td style="padding-top:10px; padding-bottom:10px;">
-									<button type="button" class="btn btn-primary" style=" float: right;">Sign Up</button>
-								</td>
-							</tr>
-						</table>
+				<div class="panel-body ">
+					<!-- <form #formSignUp="ngForm" (ngSubmit)="signUp(formSignUp.form)"> -->
+					<form #formUp="ngForm" (ngSubmit)="signUp(formUp.form)">
+						<!--<form [ngFormModel]="formUp" (ngSubmit)="signUp()">-->
+						<div class="form-group">
+							<table style="width: 100%; ">
+								<tr>
+									<td width="30% " style="padding-top:10px; padding-bottom:10px; ">
+										ID
+									</td>
+									<td width="60% " style="padding-top:10px; padding-bottom:10px; ">
+										<div>
+											<input type="text" (blur)="checkUsername(usernameUp.value)" class="form-control" placeholder="Username để đăng nhập"  ngControl="usernameUp" #usernameUp="ngForm" id="usernameUp" name="usernameUp" required minlength="6">
+										</div>
+										<div *ngIf="usernameUp.touched && usernameUp.errors">
+											<div class="alert alert-danger" *ngIf="usernameUp.errors.required">
+												Username không được để trống!
+												
+											</div>
+											<div class="alert alert-danger" *ngIf="usernameUp.errors.minlength">
+												Username không được ít hơn {{usernameUp.errors.minlength.requiredLength}} ký tự!
+											</div>
+											<div class="alert alert-danger" *ngIf="usernameUnique">
+												Username đã được sử dụng!
+											</div>
+										</div>
+									</td>
+									<td width="10% ">
+										<i class="fa fa-spinner fa-spin fa-2x" style=" float: right;" *ngIf="usernameUp.touched && checkingUser && usernameUp.valid"></i>
+										<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true" *ngIf="usernameUnique && usernameUp.touched && usernameUp.valid"></i>
+									</td>
+								</tr>
+								<tr>
+									<td width="30% " style=" padding-bottom:10px; ">
+										Password
+									</td>
+									<td width="70% " style=" padding-bottom:10px; ">
+										<div>
+											<input type="password" class="form-control" placeholder="Mật khẩu " ngControl="passwordUp" #passwordUp="ngForm" id="passwordUp" name="passwordUp" required>
+										</div>
+										<div class="alert alert-danger" *ngIf="passwordUp.touched && !passwordUp.valid">
+											Password không phù hợp
+										</div>
+									</td>
+									<td width="10% " style=" padding-bottom:10px; ">
+										<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true "></i>
+									</td>
+								</tr>
+								<tr>
+									<td width="30% ">
+										Email
+									</td>
+									<td width="70% ">
+										<div>
+											<input type="email" class="form-control" placeholder="Email" ngControl="email" #email="ngForm" id="email" name="email" required>
+										</div>
+										<div class="alert alert-danger" *ngIf="email.touched && !email.valid">
+											Password không phù hợp
+										</div>
+									</td>
+									<td width="10% ">
+										<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true "></i>
+									</td>
+								</tr>
+								<tr>
+									<td style="padding-top:10px; padding-bottom:10px; ">
+									</td>
+									<td style="padding-top:10px; padding-bottom:10px; ">
+										<i class="fa fa-spinner fa-spin fa-2x" style=" float: right;" *ngIf="isSignUp"></i>
+										<button type="submit" class="btn btn-primary " style=" float: right; " *ngIf="!isSignUp">Sign Up</button>
+									</td>
+								</tr>
+
+							</table>
+						</div>
 					</form>
 				</div>
 			</div>
 		</td>
 	</tr>
 </table>
+<div id="snackbarSuccess">Đăng ký thành công</div>
+<div id="snackbarFailure">Đăng ký thất bại</div>

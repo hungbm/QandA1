@@ -31,8 +31,14 @@
           app: {
             format: 'register',
             defaultExtension: 'js'
-          }
-        }
+          },'rxjs': {defaultExtension: 'js'}
+        },
+        map: {
+  "@angular/core": "node_modules/@angular/core/bundles/core.umd.js",
+    "@angular/forms": "node_modules/@angular/forms/bundles/forms.umd.js",
+     "rxjs": "node_modules/rxjs" 
+
+  }
       });
       System.import('app/boot')
             .then(null, console.error.bind(console));

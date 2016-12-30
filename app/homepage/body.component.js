@@ -1,5 +1,6 @@
-System.register(["angular2/core", "./bodycontent/post.component", "./bodycontent/blog.component", "../services/homepage.service", "angular2/http"], function (exports_1, context_1) {
+System.register(['angular2/core', './bodycontent/post.component', './bodycontent/blog.component', '../services/homepage.service', 'angular2/http'], function(exports_1, context_1) {
     "use strict";
+    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -9,10 +10,10 @@ System.register(["angular2/core", "./bodycontent/post.component", "./bodycontent
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var __moduleName = context_1 && context_1.id;
-    var core_1, post_component_1, blog_component_1, homepage_service_1, http_1, MainBodyComponent;
+    var core_1, post_component_1, blog_component_1, homepage_service_1, http_1;
+    var MainBodyComponent;
     return {
-        setters: [
+        setters:[
             function (core_1_1) {
                 core_1 = core_1_1;
             },
@@ -27,9 +28,8 @@ System.register(["angular2/core", "./bodycontent/post.component", "./bodycontent
             },
             function (http_1_1) {
                 http_1 = http_1_1;
-            }
-        ],
-        execute: function () {
+            }],
+        execute: function() {
             MainBodyComponent = (function () {
                 function MainBodyComponent(_homeService) {
                     this._homeService = _homeService;
@@ -42,18 +42,18 @@ System.register(["angular2/core", "./bodycontent/post.component", "./bodycontent
                         _this.topics = topics;
                     });
                 };
+                MainBodyComponent = __decorate([
+                    core_1.Component({
+                        selector: 'main-body',
+                        template: "\n        <table   width=\"60%\">\n            <div *ngFor=\"#topic of topics\" >\n                 <post [topic] = \"topic\">1</post> \n            </div>\n            \n            \n        </table>\n         <!--<blog></blog>-->\n    ", providers: [homepage_service_1.HomeService, http_1.HTTP_PROVIDERS],
+                        directives: [blog_component_1.BlogComponent, post_component_1.PostComponent]
+                    }), 
+                    __metadata('design:paramtypes', [homepage_service_1.HomeService])
+                ], MainBodyComponent);
                 return MainBodyComponent;
             }());
-            MainBodyComponent = __decorate([
-                core_1.Component({
-                    selector: 'main-body',
-                    template: "\n        <table   width=\"60%\">\n            <div *ngFor=\"#topic of topics\" >\n                 <post [topic] = \"topic\">1</post> \n            </div>\n            \n            \n        </table>\n         <!--<blog></blog>-->\n    ", providers: [homepage_service_1.HomeService, http_1.HTTP_PROVIDERS],
-                    directives: [blog_component_1.BlogComponent, post_component_1.PostComponent]
-                }),
-                __metadata("design:paramtypes", [homepage_service_1.HomeService])
-            ], MainBodyComponent);
             exports_1("MainBodyComponent", MainBodyComponent);
         }
-    };
+    }
 });
 //# sourceMappingURL=body.component.js.map
