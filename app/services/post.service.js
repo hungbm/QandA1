@@ -1,6 +1,5 @@
-System.register(['angular2/http', 'angular2/core', 'rxjs/add/operator/map', 'rxjs/operator/delay', 'rxjs/operator/mergeMap', 'rxjs/operator/switchMap', 'rxjs/Rx'], function(exports_1, context_1) {
+System.register(["angular2/http", "angular2/core", "rxjs/add/operator/map", "rxjs/operator/delay", "rxjs/operator/mergeMap", "rxjs/operator/switchMap", "rxjs/Rx"], function (exports_1, context_1) {
     "use strict";
-    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,24 +9,29 @@ System.register(['angular2/http', 'angular2/core', 'rxjs/add/operator/map', 'rxj
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var http_1, core_1, Rx_1;
-    var PostService;
+    var __moduleName = context_1 && context_1.id;
+    var http_1, core_1, Rx_1, PostService;
     return {
-        setters:[
+        setters: [
             function (http_1_1) {
                 http_1 = http_1_1;
             },
             function (core_1_1) {
                 core_1 = core_1_1;
             },
-            function (_1) {},
-            function (_2) {},
-            function (_3) {},
-            function (_4) {},
+            function (_1) {
+            },
+            function (_2) {
+            },
+            function (_3) {
+            },
+            function (_4) {
+            },
             function (Rx_1_1) {
                 Rx_1 = Rx_1_1;
-            }],
-        execute: function() {
+            }
+        ],
+        execute: function () {
             PostService = (function () {
                 function PostService(http) {
                     this.http = http;
@@ -54,14 +58,14 @@ System.register(['angular2/http', 'angular2/core', 'rxjs/add/operator/map', 'rxj
                         .map(function (response) { return response.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error); });
                 };
-                PostService = __decorate([
-                    core_1.Injectable(), 
-                    __metadata('design:paramtypes', [http_1.Http])
-                ], PostService);
                 return PostService;
             }());
+            PostService = __decorate([
+                core_1.Injectable(),
+                __metadata("design:paramtypes", [http_1.Http])
+            ], PostService);
             exports_1("PostService", PostService);
         }
-    }
+    };
 });
 //# sourceMappingURL=post.service.js.map

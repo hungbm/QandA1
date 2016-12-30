@@ -9,7 +9,7 @@ var signpage = require('./routes/signpage');
 var listuser = require('./routes/listuser');
 var askpage = require('./routes/askpage');
 var postpage = require('./routes/post');
-var port=3000;
+var port=8080;
 var app = express();
 
 mongoose.connect('mongodb://hungbm:31121993@ds119548.mlab.com:19548/qanda');

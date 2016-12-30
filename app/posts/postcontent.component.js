@@ -1,6 +1,5 @@
-System.register(['angular2/core', '../services/homepage.service', '../services/post.service', 'angular2/router', 'angular2/http', '../static_type/answer'], function(exports_1, context_1) {
+System.register(["angular2/core", "../services/homepage.service", "../services/post.service", "angular2/router", "angular2/http", "../static_type/answer"], function (exports_1, context_1) {
     "use strict";
-    var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
         var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
         if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,10 +9,10 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, homepage_service_1, post_service_1, router_1, http_1, answer_1;
-    var PostContentComponent;
+    var __moduleName = context_1 && context_1.id;
+    var core_1, homepage_service_1, post_service_1, router_1, http_1, answer_1, PostContentComponent;
     return {
-        setters:[
+        setters: [
             function (core_1_1) {
                 core_1 = core_1_1;
             },
@@ -31,8 +30,9 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
             },
             function (answer_1_1) {
                 answer_1 = answer_1_1;
-            }],
-        execute: function() {
+            }
+        ],
+        execute: function () {
             PostContentComponent = (function () {
                 function PostContentComponent(_postService, _routePrams) {
                     this._postService = _postService;
@@ -55,7 +55,6 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                         _this.answers = responseData.answers;
                         console.log(_this.answers);
                     }, function (error) { return console.error(error); } //Failure
-                     //Failure
                     );
                     // get content of Answer
                 };
@@ -75,7 +74,6 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                         console.error(error);
                         _this.isLoading = false;
                     } //Failure
-                     //Failure
                     );
                     document.getElementById("commentForm").reset();
                 };
@@ -87,19 +85,20 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                     x.className = "show";
                     setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
                 };
-                PostContentComponent = __decorate([
-                    core_1.Component({
-                        selector: 'postcontent',
-                        templateUrl: 'app/posts/postcontent.component.html',
-                        providers: [post_service_1.PostService, homepage_service_1.HomeService, http_1.HTTP_PROVIDERS],
-                        styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css']
-                    }), 
-                    __metadata('design:paramtypes', [post_service_1.PostService, router_1.RouteParams])
-                ], PostContentComponent);
                 return PostContentComponent;
             }());
+            PostContentComponent = __decorate([
+                core_1.Component({
+                    selector: 'postcontent',
+                    templateUrl: 'app/posts/postcontent.component.html',
+                    providers: [post_service_1.PostService, homepage_service_1.HomeService, http_1.HTTP_PROVIDERS],
+                    styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css']
+                }),
+                __metadata("design:paramtypes", [post_service_1.PostService,
+                    router_1.RouteParams])
+            ], PostContentComponent);
             exports_1("PostContentComponent", PostContentComponent);
         }
-    }
+    };
 });
 //# sourceMappingURL=postcontent.component.js.map

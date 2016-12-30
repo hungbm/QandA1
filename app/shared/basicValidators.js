@@ -1,10 +1,10 @@
-System.register([], function(exports_1, context_1) {
+System.register([], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var BasicValidators;
     return {
-        setters:[],
-        execute: function() {
+        setters: [],
+        execute: function () {
             BasicValidators = (function () {
                 function BasicValidators() {
                 }
@@ -17,6 +17,6 @@ System.register([], function(exports_1, context_1) {
             }());
             exports_1("BasicValidators", BasicValidators);
         }
-    }
+    };
 });
 //# sourceMappingURL=basicValidators.js.map

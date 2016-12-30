@@ -8,3 +8,6 @@
 #npm install ejs
 #npm install mongojs 
 #npm install --save bcryptjs //encrypt password #QandA1
+<!--npm install -g concurrently-->
+<!--npm install -g lite-server-->
+<!--npm install -g typescript-->

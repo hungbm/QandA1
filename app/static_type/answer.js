@@ -1,10 +1,10 @@
-System.register([], function(exports_1, context_1) {
+System.register([], function (exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var Answer;
     return {
-        setters:[],
-        execute: function() {
+        setters: [],
+        execute: function () {
             Answer = (function () {
                 function Answer(userID, upvote, isBest, createdDate, store_ID, content) {
                     this.userID = userID;
@@ -18,6 +18,6 @@ System.register([], function(exports_1, context_1) {
             }());
             exports_1("Answer", Answer);
         }
-    }
+    };
 });
 //# sourceMappingURL=answer.js.map
