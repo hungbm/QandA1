@@ -69,24 +69,6 @@ router.post('/api/:id', function (req, res, next) {
     });
 });
 
-// router.get('/api/:id', function(req, res,next){
-//     db.topics.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, topic){
-//         if(err){
-//             res.send(err);
-//         }
-//         res.json(topic);
-//     });
-// });
-
-// router.get('/', function(req, res,next){
-//     db.topics.findOne({_id: mongojs.ObjectId(req.params.id)}, function(err, topic){
-//         if(err){
-//             res.send(err);
-//         }
-//         res.json(topic);
-//     });
-// });
-
 
 
 module.exports = router;

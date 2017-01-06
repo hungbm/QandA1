@@ -34,6 +34,11 @@ System.register(['angular2/core', '../../services/askpage.service', '../../stati
                     //questions: topic[];
                     this.questions = [];
                 }
+                AskPageComponent.prototype.ngOnInit = function () {
+                    if (localStorage.getItem("token") === null) {
+                        window.location.href = "/#/signpage/";
+                    }
+                };
                 AskPageComponent.prototype.onSubmit = function (form) {
                     var question = new question_1.Question(0, 0, '24/12/2016', false, false, 'HungBM', { title: form.value.title, content: form.value.content }, ['test']);
                     //console.log(question);

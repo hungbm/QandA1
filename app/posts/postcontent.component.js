@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../services/homepage.service', '../services/post.service', 'angular2/router', 'angular2/http', '../static_type/answer'], function(exports_1, context_1) {
+System.register(['angular2/core', '../services/homepage.service', '../services/post.service', '../services/users.service', 'angular2/router', 'angular2/http', '../static_type/answer'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, homepage_service_1, post_service_1, router_1, http_1, answer_1;
+    var core_1, homepage_service_1, post_service_1, users_service_1, router_1, http_1, answer_1;
     var PostContentComponent;
     return {
         setters:[
@@ -23,6 +23,9 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
             function (post_service_1_1) {
                 post_service_1 = post_service_1_1;
             },
+            function (users_service_1_1) {
+                users_service_1 = users_service_1_1;
+            },
             function (router_1_1) {
                 router_1 = router_1_1;
             },
@@ -34,14 +37,18 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
             }],
         execute: function() {
             PostContentComponent = (function () {
-                function PostContentComponent(_postService, _routePrams) {
+                function PostContentComponent(_postService, _userService, _routePrams) {
                     this._postService = _postService;
+                    this._userService = _userService;
                     this._routePrams = _routePrams;
                     this.test = 1;
                     this.answers = [];
                     this.isLoading = false;
                     this.today = new Date().toString();
                 }
+                PostContentComponent.prototype.isLoggedIn = function () {
+                    return this._userService.isLoggedIn();
+                };
                 PostContentComponent.prototype.ngOnInit = function () {
                     var _this = this;
                     // get content of topic
@@ -62,7 +69,7 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                 PostContentComponent.prototype.onSubmit = function (form) {
                     var _this = this;
                     this.isLoading = true;
-                    var answer = new answer_1.Answer('HungBM', 0, false, this.today, 'store_ID', form.value.comment);
+                    var answer = new answer_1.Answer(localStorage.getItem('userId'), 0, false, this.today, 'store_ID', form.value.comment);
                     this._postService.submitAnswer(answer, this._routePrams.get("id"))
                         .subscribe(function (data) {
                         console.log(data.obj._id);
@@ -91,10 +98,10 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                     core_1.Component({
                         selector: 'postcontent',
                         templateUrl: 'app/posts/postcontent.component.html',
-                        providers: [post_service_1.PostService, homepage_service_1.HomeService, http_1.HTTP_PROVIDERS],
+                        providers: [post_service_1.PostService, users_service_1.UsersService, homepage_service_1.HomeService, http_1.HTTP_PROVIDERS],
                         styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css']
                     }), 
-                    __metadata('design:paramtypes', [post_service_1.PostService, router_1.RouteParams])
+                    __metadata('design:paramtypes', [post_service_1.PostService, users_service_1.UsersService, router_1.RouteParams])
                 ], PostContentComponent);
                 return PostContentComponent;
             }());

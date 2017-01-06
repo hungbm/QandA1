@@ -8,7 +8,7 @@ import {RouteConfig,RouterOutlet} from 'angular2/router';
 import {SignPageComponent} from './forms/signpage/signpage.component';
 import {PostContentComponent} from './posts/postcontent.component';
 import {AskPageComponent} from './forms/askquestion/askpage.component';
-import {MyProfileComponent} from './users/myprofile.component';
+import {MyProfileComponent} from './users/myprofile/myprofile.component';
 import {ListUserComponent} from './users/listuser.component';
 import {bootstrap} from 'angular2/platform/browser';
 import {HashLocationStrategy} from "angular2/router";
@@ -52,19 +52,9 @@ import {topic} from './static_type/topic';
 })
 
 export class AppComponent implements OnInit { 
-    // topics: topic[];
-    // constructor(private _homeService: HomeService){
-    //         // this._homeService.getTopic()
-    //         //     .subscribe(topics => {
-    //         //         console.log(topics);
-    //         //     });
-    // }  
+    
     ngOnInit(){
-        //  this._homeService.getTopic()
-        //         .subscribe(topics => {
-        //             console.log(topics);
-        //             this.topics = topics;
-        //         });
+
     }
   
 }

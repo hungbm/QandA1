@@ -14,10 +14,17 @@ import { FormsModule } from '@angular/forms';
     providers: [AskPageService]
 })
 
-export class AskPageComponent {
+export class AskPageComponent implements OnInit {
     constructor(private _askpageService: AskPageService, public http: Http) {
-
+        
     }
+    
+    ngOnInit(){
+        if (localStorage.getItem("token") === null) {
+             window.location.href = "/#/signpage/";
+        }
+    }
+    
     //questions: topic[];
     questions = [];
     question;

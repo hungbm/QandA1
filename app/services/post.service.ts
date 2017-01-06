@@ -14,9 +14,6 @@ export class PostService {
     getPost(id) {
         return this.http.get('/post/api/' + id)
             .map((response: Response) => {
-                //const questions = response.json().obj;
-                //get answers
-                //const answers = response.json().answers;
                 const responseData = response.json();
                 return responseData;
             })

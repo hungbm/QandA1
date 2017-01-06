@@ -1,7 +1,7 @@
 <table style="width: 100%;">
 	<tr>
 		<td colspan="4" width="40%">
-			<div class="panel panel-primary">
+			<div class="panel panel-primary" style="height:275">
 				<div class="panel-heading">
 					Đăng Nhập
 				</div>
@@ -19,7 +19,7 @@
 									<td width="70%" style="padding-top:10px; padding-bottom:10px;">
 										<div>
 											<!--<input type="text" class="form-control" id="usernameIn" formControlName="usernameIn" name="usernameIn" placeholder="ID" required>-->
-											<input type="text" class="form-control" id="usernameIn" ngControl="usernameIn" #usernameIn="ngForm" name="usernameIn" placeholder="ID" required>
+											<input type="text" class="form-control" id="usernameIn" ngControl="usernameIn" #usernameIn="ngForm" name="usernameIn" placeholder="ID" required title="Tên đăng nhập không được để trống!">
 										</div>
 									</td>
 								</tr>
@@ -30,19 +30,19 @@
 									<td width="70%" style=" padding-bottom:10px;">
 										<div>
 											<!--<input type="text"  class="form-control"  id="passwordIn" name="passwordIn" placeholder="Password" formControlName="passwordIn" required>-->
-											<input type="password" class="form-control" id="passwordIn" name="passwordIn" #passwordIn="ngForm" placeholder="Password" ngControl="passwordIn" required>
+											<input type="password" class="form-control" id="passwordIn" name="passwordIn" #passwordIn="ngForm" placeholder="Password" ngControl="passwordIn" required title="Mật khẩu không được để trống!">
 										</div>
 									</td>
 								</tr>
 								<tr>
-									<td width="30%">
-										Capcha
-									</td>
-									<td width="70%">
-										<div>
-											<input type="text" class="form-control" placeholder=" Capcha ">
-										</div>
-									</td>
+									<!--<td width="30%">-->
+									<!--	Capcha-->
+									<!--</td>-->
+									<!--<td width="70%">-->
+									<!--	<div>-->
+									<!--		<input type="text" class="form-control" placeholder=" Capcha ">-->
+									<!--	</div>-->
+									<!--</td>-->
 
 								</tr>
 								<tr>
@@ -68,7 +68,7 @@
 
 		</td>
 		<td colspan="5 " width="55% ">
-			<div class="panel panel-primary ">
+			<div class="panel panel-primary " style="height:275">
 				<div class="panel-heading ">
 					Đăng Ký
 				</div>
@@ -84,24 +84,23 @@
 									</td>
 									<td width="60% " style="padding-top:10px; padding-bottom:10px; ">
 										<div>
-											<input type="text" (blur)="checkUsername(usernameUp.value)" class="form-control" placeholder="Username để đăng nhập"  ngControl="usernameUp" #usernameUp="ngForm" id="usernameUp" name="usernameUp" required minlength="6">
+											<input type="text" (blur)="checkUsername(usernameUp.value)" class="form-control" placeholder="Username để đăng nhập"  ngControl="usernameUp" #usernameUp="ngForm" id="usernameUp" name="usernameUp" required pattern=".{6,}" title="Tên đăng nhập cần nhiều hơn 6 ký tự" >
 										</div>
-										<div *ngIf="usernameUp.touched && usernameUp.errors">
-											<div class="alert alert-danger" *ngIf="usernameUp.errors.required">
-												Username không được để trống!
+										<!--<div *ngIf="usernameUp.touched && usernameUp.errors">-->
+										<!--	<div class="alert alert-danger" *ngIf="usernameUp.errors.required">-->
+										<!--		Username không được để trống!-->
 												
-											</div>
-											<div class="alert alert-danger" *ngIf="usernameUp.errors.minlength">
-												Username không được ít hơn {{usernameUp.errors.minlength.requiredLength}} ký tự!
-											</div>
-											<div class="alert alert-danger" *ngIf="usernameUnique">
-												Username đã được sử dụng!
-											</div>
-										</div>
+										<!--	</div>-->
+											<!--<div class="alert alert-danger" *ngIf="usernameUp.errors.minlength">-->
+											<!--	Username không được ít hơn {{usernameUp.errors.minlength.requiredLength}} ký tự!-->
+											<!--</div>-->
+										<!--	<div class="alert alert-danger" *ngIf="!usernameUnique">-->
+										<!--		Username đã được sử dụng!-->
+										<!--	</div>-->
+										<!--</div>-->
 									</td>
 									<td width="10% ">
-										<i class="fa fa-spinner fa-spin fa-2x" style=" float: right;" *ngIf="usernameUp.touched && checkingUser && usernameUp.valid"></i>
-										<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true" *ngIf="usernameUnique && usernameUp.touched && usernameUp.valid"></i>
+										<!--<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true" *ngIf="usernameUnique && usernameUp.touched && usernameUp.valid"></i>-->
 									</td>
 								</tr>
 								<tr>
@@ -110,14 +109,14 @@
 									</td>
 									<td width="70% " style=" padding-bottom:10px; ">
 										<div>
-											<input type="password" class="form-control" placeholder="Mật khẩu " ngControl="passwordUp" #passwordUp="ngForm" id="passwordUp" name="passwordUp" required>
+											<input type="password" class="form-control" placeholder="Mật khẩu " ngControl="passwordUp" #passwordUp="ngForm" id="passwordUp" name="passwordUp" required pattern=".{6,}" title="Mật khẩu cần nhiều hơn 6 ký tự">
 										</div>
-										<div class="alert alert-danger" *ngIf="passwordUp.touched && !passwordUp.valid">
-											Password không phù hợp
-										</div>
+										<!--<div class="alert alert-danger" *ngIf="passwordUp.touched && !passwordUp.valid">-->
+										<!--	Password không phù hợp-->
+										<!--</div>-->
 									</td>
 									<td width="10% " style=" padding-bottom:10px; ">
-										<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true "></i>
+										<!--<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true "></i>-->
 									</td>
 								</tr>
 								<tr>
@@ -128,16 +127,17 @@
 										<div>
 											<input type="email" class="form-control" placeholder="Email" ngControl="email" #email="ngForm" id="email" name="email" required>
 										</div>
-										<div class="alert alert-danger" *ngIf="email.touched && !email.valid">
-											Password không phù hợp
-										</div>
+										<!--<div class="alert alert-danger" *ngIf="email.touched && !email.valid">-->
+										<!--	Password không phù hợp-->
+										<!--</div>-->
 									</td>
 									<td width="10% ">
-										<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true "></i>
+										<!--<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true "></i>-->
 									</td>
 								</tr>
 								<tr>
 									<td style="padding-top:10px; padding-bottom:10px; ">
+
 									</td>
 									<td style="padding-top:10px; padding-bottom:10px; ">
 										<i class="fa fa-spinner fa-spin fa-2x" style=" float: right;" *ngIf="isSignUp"></i>
@@ -153,5 +153,5 @@
 		</td>
 	</tr>
 </table>
-<div id="snackbarSuccess">Đăng ký thành công</div>
-<div id="snackbarFailure">Đăng ký thất bại</div>
+<div id="snackbar">Đăng ký thành công</div>
+

@@ -37,9 +37,6 @@ System.register(['angular2/http', 'angular2/core', 'rxjs/add/operator/map', 'rxj
                 PostService.prototype.getPost = function (id) {
                     return this.http.get('/post/api/' + id)
                         .map(function (response) {
-                        //const questions = response.json().obj;
-                        //get answers
-                        //const answers = response.json().answers;
                         var responseData = response.json();
                         return responseData;
                     })

@@ -34,6 +34,7 @@ System.register(['angular2/core', '../../services/users.service', '../../static_
                     this.http = http;
                     this.isSignUp = false;
                     this.checkingUser = false;
+                    this.signObj = new core_1.EventEmitter();
                     this.today = new Date().toString();
                     this.defaultAvatarUrl = 'http://i0.kym-cdn.com/photos/images/facebook/000/588/854/646.gif'; //doge
                 }
@@ -41,21 +42,40 @@ System.register(['angular2/core', '../../services/users.service', '../../static_
                 };
                 SignPageComponent.prototype.showSnackbar = function (status) {
                     if (status) {
-                        var x = document.getElementById('snackbarSuccess');
+                        document.getElementById("snackbar").innerHTML = "Đăng ký thành công!";
                     }
                     else
-                        var x = document.getElementById('snackbarFailure');
+                        document.getElementById("snackbar").innerHTML = "Đăng ký thất bại!";
+                    var x = document.getElementById("snackbar");
                     x.className = "show";
                     setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
                 };
                 //SignIn
                 SignPageComponent.prototype.signIn = function (form) {
-                    console.log(form);
+                    var user = new user_model_1.User(form.value.usernameIn, //username
+                    form.value.passwordIn, //password
+                    '');
+                    this._userpageService.signin(user)
+                        .subscribe(function (data) {
+                        localStorage.setItem('token', data.token);
+                        localStorage.setItem('userId', data.userId);
+                        localStorage.setItem('name', data.name);
+                        document.location.href = "/#/myprofile/";
+                        location.reload();
+                    }, //Success
+                    function (//Success
+                        error) {
+                        console.error(error);
+                    } //Failure
+                     //Failure
+                    );
                 };
                 //SignUp
                 SignPageComponent.prototype.signUp = function (form) {
                     var _this = this;
                     this.isSignUp = true;
+                    this.emailUnique = true;
+                    this.usernameUnique = true;
                     var user = new user_model_1.User(form.value.usernameUp, //username
                     form.value.passwordUp, //password
                     form.value.email, //email
@@ -74,6 +94,13 @@ System.register(['angular2/core', '../../services/users.service', '../../static_
                     }, //Success
                     function (//Success
                         error) {
+                        console.log(error);
+                        if (typeof error.error.errors.username != "undefined") {
+                            alert('Username này đã có người sử dụng');
+                        }
+                        else if (typeof error.error.errors.email != "undefined") {
+                            alert('Email này đã có người sử dụng');
+                        }
                         _this.isSignUp = false;
                         _this.showSnackbar(false);
                     } //Failure
@@ -83,6 +110,10 @@ System.register(['angular2/core', '../../services/users.service', '../../static_
                 SignPageComponent.prototype.checkUsername = function (usernameUp) {
                     this.checkingUser = true;
                 };
+                __decorate([
+                    core_1.Output, 
+                    __metadata('design:type', Object)
+                ], SignPageComponent.prototype, "signObj", void 0);
                 SignPageComponent = __decorate([
                     core_1.Component({
                         selector: 'signpage',

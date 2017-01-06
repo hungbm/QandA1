@@ -2,6 +2,7 @@ import { NgForm } from '@angular/forms';
 import { Component, OnInit, Input } from 'angular2/core';
 import { HomeService } from '../services/homepage.service';
 import { PostService } from '../services/post.service';
+import { UsersService } from '../services/users.service';
 import { RouteParams } from 'angular2/router';
 import { HTTP_PROVIDERS } from 'angular2/http';
 import { topic } from '../static_type/topic';
@@ -10,7 +11,7 @@ import { Answer } from '../static_type/answer';
 @Component({
     selector: 'postcontent',
     templateUrl: 'app/posts/postcontent.component.html',
-    providers: [PostService, HomeService, HTTP_PROVIDERS]
+    providers: [PostService,UsersService, HomeService, HTTP_PROVIDERS]
     ,
     styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css']
 })
@@ -21,10 +22,15 @@ export class PostContentComponent implements OnInit {
     answers = [];
     isLoading = false;
     today = new Date().toString();
-    constructor(private _postService: PostService,
+    constructor(private _postService: PostService, private _userService: UsersService, 
         private _routePrams: RouteParams) {
-
+        
     }
+    
+    isLoggedIn(){
+        return this._userService.isLoggedIn();
+    }
+    
     ngOnInit() {
         // get content of topic
         this._postService.getPost(this._routePrams.get("id"))
@@ -42,7 +48,7 @@ export class PostContentComponent implements OnInit {
     }
     onSubmit(form: NgForm) {
         this.isLoading = true;
-        const answer = new Answer('HungBM', 0, false, this.today, 'store_ID', form.value.comment);
+        const answer = new Answer(localStorage.getItem('userId'), 0, false, this.today, 'store_ID', form.value.comment);
         this._postService.submitAnswer(answer, this._routePrams.get("id"))
             .subscribe(
             data => {

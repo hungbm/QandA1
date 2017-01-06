@@ -24,22 +24,24 @@
                 <li><a [routerLink]="['AskPage']">Đặt câu hỏi</a></li>
                 </ul>
                 <ul class="center nav nav-pills navbar-right">
-                    <li style="background:white;">
+                    <li style="background:white;" *ngIf="isLoged">
                         <a [routerLink]="['MyProfile']">
-                        <span class="badge pull-right">! 41</span>
-                        <span class="badge pull-right">? 4</span>
-                        HungBM
+                        <!--<span class="badge pull-right">! 41</span>-->
+                        <!--<span class="badge pull-right">? 4</span>-->
+                        {{name}}
                         </a>
                     </li>
                     <li style="background:white;">
-                        <a [routerLink]="['SignPage']">
+                        <a [routerLink]="['SignPage']" *ngIf="!isLoged">
                         Sign In / Sign Up  
                         </a>
                     </li>
                     <li style="background:white;">
-                        <a>
+                        <a  (click)="onLogout()" *ngIf="isLoged">
                         Log Out 
                         </a>
+                        <!--<button type="submit" class="btn btn-primary " style=" float: right; " *ngIf="!isSignUp">Sign Up</button>-->
+									
                     </li>
                 </ul>
             </div>

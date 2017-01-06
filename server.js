@@ -5,7 +5,7 @@ var bodyParser = require('body-parser');
 var mongoose = require('mongoose');
 var index = require('./routes/index');
 var signpage = require('./routes/signpage');
-// var myprofile = require('./routes/myprofile');
+var myprofile = require('./routes/myprofile');
 var listuser = require('./routes/listuser');
 var askpage = require('./routes/askpage');
 var postpage = require('./routes/post');
@@ -45,7 +45,7 @@ app.use(function (req, res, next) {
 //When go to home => using index route
 app.use('/', index);
 app.use('/signpage',signpage);
-// app.use('/myprofile',myprofile);
+app.use('/myprofile',myprofile);
 app.use('/listuser',listuser);
 app.use('/post',postpage);
 app.use('/askpage',askpage);

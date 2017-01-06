@@ -1,4 +1,4 @@
-System.register(['angular2/http', 'angular2/core', './homepage/logoheader.component', './homepage/footer.component', './homepage/body.component', 'angular2/router', './forms/signpage/signpage.component', './posts/postcontent.component', './forms/askquestion/askpage.component', './users/myprofile.component', './users/listuser.component', './services/homepage.service'], function(exports_1, context_1) {
+System.register(['angular2/http', 'angular2/core', './homepage/logoheader.component', './homepage/footer.component', './homepage/body.component', 'angular2/router', './forms/signpage/signpage.component', './posts/postcontent.component', './forms/askquestion/askpage.component', './users/myprofile/myprofile.component', './users/listuser.component', './services/homepage.service'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -58,19 +58,7 @@ System.register(['angular2/http', 'angular2/core', './homepage/logoheader.compon
             AppComponent = (function () {
                 function AppComponent() {
                 }
-                // topics: topic[];
-                // constructor(private _homeService: HomeService){
-                //         // this._homeService.getTopic()
-                //         //     .subscribe(topics => {
-                //         //         console.log(topics);
-                //         //     });
-                // }  
                 AppComponent.prototype.ngOnInit = function () {
-                    //  this._homeService.getTopic()
-                    //         .subscribe(topics => {
-                    //             console.log(topics);
-                    //             this.topics = topics;
-                    //         });
                 };
                 AppComponent = __decorate([
                     router_1.RouteConfig([

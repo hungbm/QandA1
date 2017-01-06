@@ -28,9 +28,10 @@ router.get('/', function(req, res, next){
         if(err){
             res.send(err);
         }
+        res.json(topics);
     });
     //res.send('shjit');
-    res.json(topics);
+    
     //res.render('index.html');
 
     

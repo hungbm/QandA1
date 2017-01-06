@@ -40,9 +40,48 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/add/operator
                 };
                 UsersService.prototype.signup = function (user) {
                     var body = JSON.stringify(user);
-                    console.log(body);
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
                     return this.http.post('/signpage', body, { headers: headers })
+                        .map(function (response) { return response.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
+                };
+                UsersService.prototype.signin = function (user) {
+                    var body = JSON.stringify(user);
+                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+                    return this.http.post('/signpage', body, { headers: headers })
+                        .map(function (response) { return response.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
+                };
+                UsersService.prototype.logout = function () {
+                    localStorage.clear();
+                };
+                UsersService.prototype.myprofile = function () {
+                    return this.http.get('/myprofile/api/' + localStorage.getItem('userId'))
+                        .map(function (response) { return response.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
+                };
+                UsersService.prototype.isLoggedIn = function () {
+                    return localStorage.getItem('token') !== null;
+                };
+                UsersService.prototype.updateInfo = function (user) {
+                    //  var updateObj = {};
+                    // updateObj.userId = user.username;
+                    // if (user.password != null && user.password != '') {
+                    //     updateObj.password = bcrypt.hashSync(user.password, 10);
+                    //     console.log('here');
+                    // }
+                    // if (user.avatarUrl != null && user.avatarUrl != '') {
+                    //     updateObj.avatarUrl = user.avatarUrl;
+                    // }
+                    // if (user.summary != null && user.summary != '') {
+                    //     updateObj.summary = user.summary;
+                    // }
+                    // if (user.name != null && user.name != '') {
+                    //     updateObj.name = user.name;
+                    // }
+                    var body = JSON.stringify(user);
+                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+                    return this.http.post('/myprofile', body, { headers: headers })
                         .map(function (response) { return response.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
                 };

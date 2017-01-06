@@ -44,13 +44,13 @@
             </div>
         </div>
     </div>
-    <div style="width: 100%; text-align: center;">
+    <div *ngIf="isLoggedIn()" style="width: 100%; text-align: center;">
         <p>
         <button style="width: 80%;margin: auto;" data-toggle="collapse" data-target="#reply" type="button" class="btn btn-primary btn-lg button_blinking">Đóng góp ý kiến</button>
         </p>
     </div>
 
-    <div class="panel panel-default collapse " id="reply" >
+    <div *ngIf="isLoggedIn()" class="panel panel-default collapse " id="reply" >
         <div class="panel-heading">Đóng góp ý kiến</div>
         <div class="panel-body">
             <form #f="ngForm" (ngSubmit)="onSubmit(f)" id="commentForm">

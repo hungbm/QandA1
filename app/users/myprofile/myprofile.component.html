@@ -1,0 +1,182 @@
+<table>
+    <tr>
+        <td width=75%>
+            <div class="media">
+                <div class="media-left">
+                    <img class="media-object" style=" border: 5px solid white ;width: 200px; height: 200px;" src="{{ avatarUrl }}">
+
+                </div>
+                <div class="media-body">
+                    <h2 class="media-heading">{{name}}</h2>
+                    <p style="width:80%; padding:10px; padding-top: 10px;"> {{summary}}</p>
+                </div>
+            </div>
+        </td>
+        <td>
+            <ul class="list-group">
+                <li class="list-group-item">Tham gia từ <span class="badge pull-right">{{dateJoin}}</span></li>
+                <li class="list-group-item">Số lượng bài viết <span class="badge pull-right">?</span></li>
+                <li class="list-group-item">Trả lời đúng <span class="badge pull-right">?</span></li>
+            </ul>
+        </td>
+    </tr>
+    <tr>
+        <td colspan=2>
+            <ul class="nav nav-tabs nav-justified">
+                <li role="presentation" class="active"><a data-toggle="tab" href="#profile" class="btn">Hồ sơ</a></li>
+                <li role="presentation"><a data-toggle="tab" href="#activities" class="btn ">Hoạt động</a></li>
+            </ul>
+
+            <div align="justify" class="tab-content" style="background-color:#ffffff;border: 1px solid #dddddd; border-top:0; ">
+                <div id="profile" class="tab-pane fade in active">
+                    <form #formUp="ngForm" (ngSubmit)="updateInfo(formUp.form)">
+                        <div class="form-group">
+                            <table class="center" style="width: 80%; ">
+                                <tr>
+                                    <td width="30% " style="padding-top:10px; padding-bottom:10px; ">
+                                        Tên người sử dụng
+                                    </td>
+                                    <td width="60% " style="padding-top:10px; padding-bottom:10px; ">
+                                        <div>
+                                            <input type="text" class="form-control" placeholder="{{name}}" [disabled]="!isEdit" ngControl="usernameUp" #usernameUp="ngForm" id="usernameUp" name="usernameUp" pattern=".{6,}" title="Tên đăng nhập cần nhiều hơn 6 ký tự">
+                                        </div>
+                                    </td>
+                                    <td width="10% ">
+                                        <!--<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true" *ngIf="usernameUnique && usernameUp.touched && usernameUp.valid"></i>-->
+                                    </td>
+                                </tr>
+                                
+                                 <tr>
+                                    <td width="30% " style="padding-top:10px; padding-bottom:10px; ">
+                                        Ảnh đại diện
+                                    </td>
+                                    <td width="70% " style="padding-top:10px; padding-bottom:10px; ">
+                                        <div>
+                                            <input type="text" class="form-control" placeholder="{{avatarUrl}}" [disabled]="!isEdit" ngControl="avatar" #avatar="ngForm" id="avatar" name="avatar">
+                                        </div>
+                                        <!--<div class="alert alert-danger" *ngIf="email.touched && !email.valid">-->
+                                        <!--	Password không phù hợp-->
+                                        <!--</div>-->
+                                    </td>
+                                    <td width="10% ">
+                                        <!--<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true "></i>-->
+                                    </td>
+                                </tr>
+                                
+                              
+
+                                <tr>
+
+                                    <td width="30% " style="padding-top:10px; padding-bottom:10px; ">
+                                        Mô tả bản thân
+                                    </td>
+
+
+                                    <td width="70% " style="padding-top:10px; padding-bottom:10px; ">
+                                        <div class="form-group">
+                                            <textarea ngControl="summary" #summary="ngForm" placeholder="{{summary}}" [disabled]="!isEdit" name="summary" class="form-control" ngModel id="summary"></textarea>
+                                        </div>
+                                        <!--<div class="alert alert-danger" *ngIf="email.touched && !email.valid">-->
+                                        <!--	Password không phù hợp-->
+                                        <!--</div>-->
+                                    </td>
+
+
+
+                                    <td width="10% ">
+                                        <!--<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true "></i>-->
+                                    </td>
+                                </tr>
+
+                                <tr class="collapse" id="changpass">
+
+                                        <td width="30% " style=" padding-bottom:10px; ">
+                                            Mật khẩu mới
+                                        </td>
+                                        <td width="70% " style=" padding-bottom:10px; ">
+                                            <div>
+                                                <input type="password" class="form-control" placeholder="*********" ngControl="passwordUp" #passwordUp="ngForm" id="passwordUp" name="passwordUp" pattern=".{6,}" title="Mật khẩu cần nhiều hơn 6 ký tự">
+                                            </div>
+                                        </td>
+                                        <td width="10% " style=" padding-bottom:10px; ">
+                                        </td>
+
+                                </tr>
+
+
+                                <tr class="collapse" id="changpassre">
+
+                                        <td width="30% " style=" padding-bottom:10px; ">
+                                            Nhập lại mật khẩu mới
+                                        </td>
+                                        <td width="70% " style=" padding-bottom:10px; ">
+                                            <div>
+                                                <input type="password" class="form-control" placeholder="*********" ngControl="passwordRe" #passwordRe="ngForm" id="passwordRe" name="passwordRe" pattern=".{6,}" title="Mật khẩu cần nhiều hơn 6 ký tự">
+                                            </div>
+                                        </td>
+                                        <td width="10% " style=" padding-bottom:10px; ">
+                                        </td>
+                             
+                                </tr>
+
+
+                                <tr>
+                                    <td style="padding-top:10px; padding-bottom:10px; ">
+                                        <button type="button" class="btn btn-primary " [class.disabled]="!isEdit" style=" float: left ; " data-toggle="collapse" data-target="#changpass,#changpassre" *ngIf="!isSignUp">Đổi mật khẩu</button>
+                                    </td>
+                                    <td style="padding-top:10px; padding-bottom:10px; ">
+                                        <i class="fa fa-spinner fa-spin fa-2x" style=" float: right;" *ngIf="updating"></i>
+                                        <button type="submit" class="btn btn-primary " style=" float: right; " *ngIf="isEdit">Lưu</button>
+                                         <button type="button" class="btn btn-primary " style=" float: right; " *ngIf="!isEdit" (click)="onEdit()">Sửa thông tin</button>
+                                    </td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </form>
+
+                </div>
+                <div id="activities" class="tab-pane fade">
+
+
+                    <ul class="nav nav-tabs nav-justified">
+                        <li role="presentation" class="active"><a data-toggle="tab" href="#summary" class="btn">Tổng hợp</a></li>
+                        <li role="presentation"><a data-toggle="tab" href="#answers" class="btn ">Câu trả lời</a></li>
+                        <li role="presentation"><a data-toggle="tab" href="#questions" class="btn ">Câu hỏi</a></li>
+                    </ul>
+
+                    <div align="justify" class="tab-content" style="background-color:#ffffff;border: 1px solid #dddddd; border-top:0; ">
+                        <div id="summary" class="tab-pane fade in active">
+                            <ul class="list-group">
+                                <li class="list-group-item"><span class="label label-success">201</span><a class="btn">Example heading </a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">12</span><a class="btn">Example heading </a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">5</span><a class="btn">Example heading </a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-default">46</span><a class="btn">Example heading </a></li>
+                            </ul>
+
+                        </div>
+                        <div id="answers" class="tab-pane fade">
+                            <ul class="list-group">
+                                <li class="list-group-item"><span class="label label-success">201</span><a class="btn">Example heading </a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">12</span><a class="btn">Example heading </a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">5</span><a class="btn">Example heading </a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-default">46</span><a class="btn">Example heading </a></li>
+                            </ul>
+                        </div>
+                        <div id="questions" class="tab-pane fade">
+                            <ul class="list-group">
+                                <li class="list-group-item"><span class="label label-success">201</span><a class="btn">Example heading </a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">12</span><a class="btn">Example heading </a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">5</span><a class="btn">Example heading </a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-default">46</span><a class="btn">Example heading </a></li>
+                            </ul>
+                        </div>
+                    </div>
+
+
+                </div>
+            </div>
+        </td>
+    </tr>
+</table>
+<div id="snackbar">Đổi Password thành công</div>
