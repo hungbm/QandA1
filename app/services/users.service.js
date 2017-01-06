@@ -64,21 +64,6 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/add/operator
                     return localStorage.getItem('token') !== null;
                 };
                 UsersService.prototype.updateInfo = function (user) {
-                    //  var updateObj = {};
-                    // updateObj.userId = user.username;
-                    // if (user.password != null && user.password != '') {
-                    //     updateObj.password = bcrypt.hashSync(user.password, 10);
-                    //     console.log('here');
-                    // }
-                    // if (user.avatarUrl != null && user.avatarUrl != '') {
-                    //     updateObj.avatarUrl = user.avatarUrl;
-                    // }
-                    // if (user.summary != null && user.summary != '') {
-                    //     updateObj.summary = user.summary;
-                    // }
-                    // if (user.name != null && user.name != '') {
-                    //     updateObj.name = user.name;
-                    // }
                     var body = JSON.stringify(user);
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
                     return this.http.post('/myprofile', body, { headers: headers })

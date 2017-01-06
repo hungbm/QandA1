@@ -8,7 +8,7 @@ var schema = new Schema({
     createdDate: {type: String, required: true},
     isAnswered:{type: Boolean, required: true},
     isClosed: {type: Boolean, required: true},
-    userID : {type: String, required: true},
+    userID : {type: Schema.Types.ObjectId, ref: 'User', required: true},
     tags: [{type: String}],
     question: {
         title: {type: String, required: true},

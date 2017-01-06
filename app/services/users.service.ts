@@ -55,23 +55,7 @@ export class UsersService{
     }
     
     updateInfo(user: User){
-        
-        //  var updateObj = {};
-        // updateObj.userId = user.username;
-        // if (user.password != null && user.password != '') {
-        //     updateObj.password = bcrypt.hashSync(user.password, 10);
-        //     console.log('here');
-        // }
-        // if (user.avatarUrl != null && user.avatarUrl != '') {
-        //     updateObj.avatarUrl = user.avatarUrl;
-        // }
-        // if (user.summary != null && user.summary != '') {
-        //     updateObj.summary = user.summary;
-        // }
-        // if (user.name != null && user.name != '') {
-        //     updateObj.name = user.name;
-        // }
-        
+
          const body = JSON.stringify(user);
         const headers = new Headers({'Content-Type': 'application/json'});
         return this.http.post('/myprofile',body,{headers: headers})

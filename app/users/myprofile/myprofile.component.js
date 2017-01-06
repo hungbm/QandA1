@@ -55,10 +55,12 @@ System.register(['angular2/core', '../../services/users.service', 'angular2/http
                         _this.email = data.obj.email;
                         _this.name = data.obj.name;
                         _this.point = data.obj.point;
-                        var temp = data.obj.summary;
-                        _this.summary = temp.valueOf();
+                        _this.summary = data.obj.summary;
+                        _this.totalPost = data.totalPost;
+                        _this.totalCorrectAns = data.totalCorrectAns;
+                        //console.log('totalPost:'+data.totalPost);
                         //this.summary  = data.obj.summary.valueOf();
-                        console.log(data.obj.summary.valueOf());
+                        //console.log(data.obj.summary.valueOf());
                     }, //Success
                     function (//Success
                         error) {

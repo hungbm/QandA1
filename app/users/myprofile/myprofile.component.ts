@@ -20,6 +20,8 @@ export class MyProfileComponent implements OnInit {
     name;
     point;
     summary;
+    totalPost;
+    totalCorrectAns;
     
     isEdit=false;
     
@@ -50,11 +52,12 @@ export class MyProfileComponent implements OnInit {
                 this.email = data.obj.email;
                 this.name = data.obj.name;
                 this.point = data.obj.point;
-                var temp = data.obj.summary;
-                this.summary = temp.valueOf();
-                
+                this.summary = data.obj.summary;
+                this.totalPost = data.totalPost;
+                this.totalCorrectAns = data.totalCorrectAns;
+                //console.log('totalPost:'+data.totalPost);
                 //this.summary  = data.obj.summary.valueOf();
-                console.log(data.obj.summary.valueOf());
+                //console.log(data.obj.summary.valueOf());
             }, //Success
             error => {
                 console.log(error);

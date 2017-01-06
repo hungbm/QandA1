@@ -2,7 +2,9 @@ var express = require('express');
 var router = express.Router();
 var User = require('../models/user');
 var bcrypt = require('bcryptjs');
-
+var Question = require('../models/question');
+var Answer = require('../models/answer');
+var assert = require('assert')
 router.get('/api/:id', function(req, res, next) {
     User.findById(req.params.id, function(err, result) {
         if (err) {
@@ -11,10 +13,59 @@ router.get('/api/:id', function(req, res, next) {
                 error: err
             });
         }
-        res.status(201).json({
-            message: 'success',
-            obj: result
+
+        //Promise to count 
+        var totalPost = 0;
+        var totalCorrectAns = 0;
+
+        var queryCountCorrectAns = Answer.count({
+            userID: req.params.id,
+            isBest: true
         });
+        assert.ok(!(queryCountQuestion instanceof require('mpromise')));
+
+        var queryCountQuestion = Question.count({
+            userID: req.params.id
+        });
+        assert.ok(!(queryCountQuestion instanceof require('mpromise')));
+
+
+
+        var queryCountAnswer = Answer.count({
+            userID: req.params.id
+        });
+        assert.ok(!(queryCountAnswer instanceof require('mpromise')));
+
+        queryCountQuestion.then(function(doc) {
+            totalPost = totalPost + doc;
+            queryCountAnswer.then(function(doc) {
+                totalPost = totalPost + doc;
+                queryCountCorrectAns.then(function(doc) {
+                    totalCorrectAns =  doc;
+                    res.status(201).json({
+                        message: 'success',
+                        obj: result,
+                        totalPost: totalPost,
+                        totalCorrectAns: totalCorrectAns
+                    });
+                });
+
+            });
+        });
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     });
 });
