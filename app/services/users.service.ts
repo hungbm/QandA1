@@ -45,7 +45,10 @@ export class UsersService{
     }
     
     myprofile(){
-        return this.http.get('/myprofile/api/'+ localStorage.getItem('userId'))
+        const token = localStorage.getItem('token') 
+            ? '?token='+localStorage.getItem('token')
+            : '';
+        return this.http.get('/myprofile/api/'+ localStorage.getItem('userId')+token)
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
     }
@@ -55,12 +58,27 @@ export class UsersService{
     }
     
     updateInfo(user: User){
-
+        const token = localStorage.getItem('token') 
+            ? '?token='+localStorage.getItem('token')
+            : '';
          const body = JSON.stringify(user);
         const headers = new Headers({'Content-Type': 'application/json'});
-        return this.http.post('/myprofile',body,{headers: headers})
+        return this.http.post('/myprofile'+token,body,{headers: headers})
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()));
     }
-
+    
+    loadmore(tab: String,quantity: Number){
+        const token = localStorage.getItem('token') 
+            ? '?token='+localStorage.getItem('token')
+            : '';
+            
+        const SoBanGhiDaCo = quantity 
+            ? quantity
+            : 0;
+            
+        return this.http.get('/myprofile/activities'+token+'&type='+tab+'&quantity='+quantity)
+            .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()));
+    }
 }

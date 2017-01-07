@@ -41,7 +41,6 @@ import {topic} from './static_type/topic';
     `,
     providers:[HomeService,HTTP_PROVIDERS,ROUTER_PROVIDERS,provide(LocationStrategy, {useClass: HashLocationStrategy})]
     ,
-
     directives: [LogoHeaderComponent,
                 FooterComponent,
                 RouterOutlet,ROUTER_DIRECTIVES,

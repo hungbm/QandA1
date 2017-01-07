@@ -56,7 +56,10 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/add/operator
                     localStorage.clear();
                 };
                 UsersService.prototype.myprofile = function () {
-                    return this.http.get('/myprofile/api/' + localStorage.getItem('userId'))
+                    var token = localStorage.getItem('token')
+                        ? '?token=' + localStorage.getItem('token')
+                        : '';
+                    return this.http.get('/myprofile/api/' + localStorage.getItem('userId') + token)
                         .map(function (response) { return response.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
                 };
@@ -64,9 +67,23 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/Rx', 'rxjs/add/operator
                     return localStorage.getItem('token') !== null;
                 };
                 UsersService.prototype.updateInfo = function (user) {
+                    var token = localStorage.getItem('token')
+                        ? '?token=' + localStorage.getItem('token')
+                        : '';
                     var body = JSON.stringify(user);
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-                    return this.http.post('/myprofile', body, { headers: headers })
+                    return this.http.post('/myprofile' + token, body, { headers: headers })
+                        .map(function (response) { return response.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
+                };
+                UsersService.prototype.loadmore = function (tab, quantity) {
+                    var token = localStorage.getItem('token')
+                        ? '?token=' + localStorage.getItem('token')
+                        : '';
+                    var SoBanGhiDaCo = quantity
+                        ? quantity
+                        : 0;
+                    return this.http.get('/myprofile/activities' + token + '&type=' + tab + '&quantity=' + quantity)
                         .map(function (response) { return response.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
                 };

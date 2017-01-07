@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../../services/users.service', 'angular2/http', '../../static_type/user.model'], function(exports_1, context_1) {
+System.register(['angular2/core', '../../services/users.service', 'angular2/http', './myprofile.pipe', '../../static_type/user.model', 'angular2/router'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../../services/users.service', 'angular2/http
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, users_service_1, http_1, user_model_1;
+    var core_1, users_service_1, http_1, myprofile_pipe_1, user_model_1, router_1;
     var MyProfileComponent;
     return {
         setters:[
@@ -23,8 +23,14 @@ System.register(['angular2/core', '../../services/users.service', 'angular2/http
             function (http_1_1) {
                 http_1 = http_1_1;
             },
+            function (myprofile_pipe_1_1) {
+                myprofile_pipe_1 = myprofile_pipe_1_1;
+            },
             function (user_model_1_1) {
                 user_model_1 = user_model_1_1;
+            },
+            function (router_1_1) {
+                router_1 = router_1_1;
             }],
         execute: function() {
             MyProfileComponent = (function () {
@@ -56,11 +62,12 @@ System.register(['angular2/core', '../../services/users.service', 'angular2/http
                         _this.name = data.obj.name;
                         _this.point = data.obj.point;
                         _this.summary = data.obj.summary;
-                        _this.totalPost = data.totalPost;
+                        _this.listQuestion = data.listQuestion;
+                        _this.listAnswers = data.listAnswers;
+                        _this.listPost = _this.listQuestion.concat(_this.listAnswers);
+                        _this.totalPost = data.listQuestion.length + data.listAnswers.length;
                         _this.totalCorrectAns = data.totalCorrectAns;
-                        //console.log('totalPost:'+data.totalPost);
-                        //this.summary  = data.obj.summary.valueOf();
-                        //console.log(data.obj.summary.valueOf());
+                        console.log(_this.listPost);
                     }, //Success
                     function (//Success
                         error) {
@@ -116,12 +123,56 @@ System.register(['angular2/core', '../../services/users.service', 'angular2/http
                      //Failure
                     );
                 };
+                MyProfileComponent.prototype.loadmore = function (tab) {
+                    var _this = this;
+                    if (tab === "all") {
+                        this._userpageService.loadmore(tab, this.listPost.length)
+                            .subscribe(function (data) {
+                            _this.listPost = _this.listPost.concat(data.obj);
+                            console.log(data);
+                        }, //Success
+                        function (//Success
+                            error) {
+                            console.error(error);
+                        } //Failure
+                         //Failure
+                        );
+                    }
+                    else if (tab === "ans") {
+                        this._userpageService.loadmore(tab, this.listAnswers.length)
+                            .subscribe(function (data) {
+                            console.log(data);
+                            _this.listAnswers = _this.listAnswers.concat(data.obj);
+                        }, //Success
+                        function (//Success
+                            error) {
+                            console.error(error);
+                        } //Failure
+                         //Failure
+                        );
+                    }
+                    else if (tab === "qus") {
+                        this._userpageService.loadmore(tab, this.listQuestion.length)
+                            .subscribe(function (data) {
+                            console.log(data);
+                            _this.listQuestion = _this.listQuestion.concat(data.obj);
+                        }, //Success
+                        function (//Success
+                            error) {
+                            console.error(error);
+                        } //Failure
+                         //Failure
+                        );
+                    }
+                };
                 MyProfileComponent = __decorate([
                     core_1.Component({
                         selector: 'myprofile',
                         templateUrl: 'app/users/myprofile/myprofile.component.html',
                         providers: [users_service_1.UsersService],
-                        styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css']
+                        directives: [router_1.RouterLink],
+                        styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css'],
+                        pipes: [myprofile_pipe_1.PostTitlePipe]
                     }), 
                     __metadata('design:paramtypes', [users_service_1.UsersService, http_1.Http])
                 ], MyProfileComponent);

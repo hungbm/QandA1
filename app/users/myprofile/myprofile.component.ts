@@ -2,13 +2,16 @@
 import { Component,OnInit } from 'angular2/core';
 import { UsersService } from '../../services/users.service';
 import { Http, Response, Headers, RequestOptions } from 'angular2/http';
-//import { NgForm } from '@angular/forms';
+import { PostTitlePipe } from './myprofile.pipe';
 import { User } from '../../static_type/user.model';
+import {RouterLink} from 'angular2/router';
 @Component({
     selector: 'myprofile',
     templateUrl:'app/users/myprofile/myprofile.component.html',
     providers: [UsersService],
-    styleUrls: ['assets/stylesheets/styles.css','assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css']
+    directives: [RouterLink],
+    styleUrls: ['assets/stylesheets/styles.css','assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css'],
+    pipes: [PostTitlePipe]
 
 })
 export class MyProfileComponent implements OnInit {
@@ -24,6 +27,10 @@ export class MyProfileComponent implements OnInit {
     totalCorrectAns;
     
     isEdit=false;
+    
+    listQuestion;
+    listAnswers;
+    listPost;
     
     onEdit(){
         this.isEdit=!this.isEdit;
@@ -53,11 +60,15 @@ export class MyProfileComponent implements OnInit {
                 this.name = data.obj.name;
                 this.point = data.obj.point;
                 this.summary = data.obj.summary;
-                this.totalPost = data.totalPost;
+                
+                this.listQuestion = data.listQuestion;
+                this.listAnswers = data.listAnswers;
+                this.listPost = this.listQuestion.concat(this.listAnswers);
+                
+                this.totalPost = data.listQuestion.length + data.listAnswers.length;
                 this.totalCorrectAns = data.totalCorrectAns;
-                //console.log('totalPost:'+data.totalPost);
-                //this.summary  = data.obj.summary.valueOf();
-                //console.log(data.obj.summary.valueOf());
+                
+                console.log(this.listPost);
             }, //Success
             error => {
                 console.log(error);
@@ -120,5 +131,43 @@ export class MyProfileComponent implements OnInit {
              this.showSnackbar('ChangeFailure');
             }//Failure
             );
+    }
+    
+    
+    loadmore(tab){
+        if(tab === "all"){
+            this._userpageService.loadmore(tab,this.listPost.length)
+            .subscribe(
+            data => {
+                this.listPost = this.listPost.concat(data.obj);
+               console.log(data)
+            }, //Success
+            error =>  {
+              console.error(error)
+            }//Failure
+            );
+        }else if(tab=== "ans"){
+             this._userpageService.loadmore(tab,this.listAnswers.length)
+            .subscribe(
+            data => {
+               console.log(data)
+               this.listAnswers = this.listAnswers.concat(data.obj);
+            }, //Success
+            error =>  {
+              console.error(error)
+            }//Failure
+            );
+        }else if(tab === "qus"){
+             this._userpageService.loadmore(tab,this.listQuestion.length)
+            .subscribe(
+            data => {
+               console.log(data)
+               this.listQuestion = this.listQuestion.concat(data.obj);
+            }, //Success
+            error =>  {
+              console.error(error)
+            }//Failure
+            );
+        }
     }
 }

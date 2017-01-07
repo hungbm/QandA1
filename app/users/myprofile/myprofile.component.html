@@ -45,8 +45,8 @@
                                         <!--<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true" *ngIf="usernameUnique && usernameUp.touched && usernameUp.valid"></i>-->
                                     </td>
                                 </tr>
-                                
-                                 <tr>
+
+                                <tr>
                                     <td width="30% " style="padding-top:10px; padding-bottom:10px; ">
                                         Ảnh đại diện
                                     </td>
@@ -62,8 +62,8 @@
                                         <!--<i style="padding-left :10px; " class="fa fa-check " aria-hidden="true "></i>-->
                                     </td>
                                 </tr>
-                                
-                              
+
+
 
                                 <tr>
 
@@ -90,33 +90,33 @@
 
                                 <tr class="collapse" id="changpass">
 
-                                        <td width="30% " style=" padding-bottom:10px; ">
-                                            Mật khẩu mới
-                                        </td>
-                                        <td width="70% " style=" padding-bottom:10px; ">
-                                            <div>
-                                                <input type="password" class="form-control" placeholder="*********" ngControl="passwordUp" #passwordUp="ngForm" id="passwordUp" name="passwordUp" pattern=".{6,}" title="Mật khẩu cần nhiều hơn 6 ký tự">
-                                            </div>
-                                        </td>
-                                        <td width="10% " style=" padding-bottom:10px; ">
-                                        </td>
+                                    <td width="30% " style=" padding-bottom:10px; ">
+                                        Mật khẩu mới
+                                    </td>
+                                    <td width="70% " style=" padding-bottom:10px; ">
+                                        <div>
+                                            <input type="password" class="form-control" placeholder="*********" ngControl="passwordUp" #passwordUp="ngForm" id="passwordUp" name="passwordUp" pattern=".{6,}" title="Mật khẩu cần nhiều hơn 6 ký tự">
+                                        </div>
+                                    </td>
+                                    <td width="10% " style=" padding-bottom:10px; ">
+                                    </td>
 
                                 </tr>
 
 
                                 <tr class="collapse" id="changpassre">
 
-                                        <td width="30% " style=" padding-bottom:10px; ">
-                                            Nhập lại mật khẩu mới
-                                        </td>
-                                        <td width="70% " style=" padding-bottom:10px; ">
-                                            <div>
-                                                <input type="password" class="form-control" placeholder="*********" ngControl="passwordRe" #passwordRe="ngForm" id="passwordRe" name="passwordRe" pattern=".{6,}" title="Mật khẩu cần nhiều hơn 6 ký tự">
-                                            </div>
-                                        </td>
-                                        <td width="10% " style=" padding-bottom:10px; ">
-                                        </td>
-                             
+                                    <td width="30% " style=" padding-bottom:10px; ">
+                                        Nhập lại mật khẩu mới
+                                    </td>
+                                    <td width="70% " style=" padding-bottom:10px; ">
+                                        <div>
+                                            <input type="password" class="form-control" placeholder="*********" ngControl="passwordRe" #passwordRe="ngForm" id="passwordRe" name="passwordRe" pattern=".{6,}" title="Mật khẩu cần nhiều hơn 6 ký tự">
+                                        </div>
+                                    </td>
+                                    <td width="10% " style=" padding-bottom:10px; ">
+                                    </td>
+
                                 </tr>
 
 
@@ -127,7 +127,7 @@
                                     <td style="padding-top:10px; padding-bottom:10px; ">
                                         <i class="fa fa-spinner fa-spin fa-2x" style=" float: right;" *ngIf="updating"></i>
                                         <button type="submit" class="btn btn-primary " style=" float: right; " *ngIf="isEdit">Lưu</button>
-                                         <button type="button" class="btn btn-primary " style=" float: right; " *ngIf="!isEdit" (click)="onEdit()">Sửa thông tin</button>
+                                        <button type="button" class="btn btn-primary " style=" float: right; " *ngIf="!isEdit" (click)="onEdit()">Sửa thông tin</button>
                                     </td>
                                 </tr>
 
@@ -137,38 +137,32 @@
 
                 </div>
                 <div id="activities" class="tab-pane fade">
-
-
                     <ul class="nav nav-tabs nav-justified">
-                        <li role="presentation" class="active"><a data-toggle="tab" href="#summary" class="btn">Tổng hợp</a></li>
+                        <li role="presentation" class="active"><a data-toggle="tab" href="#allactive" class="btn">Tất cả</a></li>
                         <li role="presentation"><a data-toggle="tab" href="#answers" class="btn ">Câu trả lời</a></li>
                         <li role="presentation"><a data-toggle="tab" href="#questions" class="btn ">Câu hỏi</a></li>
                     </ul>
 
                     <div align="justify" class="tab-content" style="background-color:#ffffff;border: 1px solid #dddddd; border-top:0; ">
-                        <div id="summary" class="tab-pane fade in active">
-                            <ul class="list-group">
-                                <li class="list-group-item"><span class="label label-success">201</span><a class="btn">Example heading </a></li>
-                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">12</span><a class="btn">Example heading </a></li>
-                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">5</span><a class="btn">Example heading </a></li>
-                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-default">46</span><a class="btn">Example heading </a></li>
+                        <div id="allactive" class="tab-pane fade in active">
+                            <ul class="list-group"> 
+                                <li *ngFor="#post of listPost" class="list-group-item"><span class="label" [ngClass]="{'label-success': post.isBest,'label-default': !post.isBest}">{{post.upvote}}</span><a class="btn" [routerLink]="['PostPage',{id:post._id}]">{{post | posttitle}}</a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-default"></span> <button type="button" (click)="loadmore('all')" class="btn btn-primary"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span> Hiển thị thêm </button></li>
                             </ul>
 
                         </div>
                         <div id="answers" class="tab-pane fade">
                             <ul class="list-group">
-                                <li class="list-group-item"><span class="label label-success">201</span><a class="btn">Example heading </a></li>
-                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">12</span><a class="btn">Example heading </a></li>
-                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">5</span><a class="btn">Example heading </a></li>
-                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-default">46</span><a class="btn">Example heading </a></li>
+                                <li *ngFor="#answer of listAnswers" class="list-group-item"><span class="label" [ngClass]="{'label-success': answer.isBest,'label-default': !answer.isBest}">{{answer.upvote}}</span><a class="btn">{{answer | posttitle}}</a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-default"></span> <button type="button" (click)="loadmore('ans')" class="btn btn-primary"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span> Hiển thị thêm </button></li>
+
                             </ul>
                         </div>
                         <div id="questions" class="tab-pane fade">
                             <ul class="list-group">
-                                <li class="list-group-item"><span class="label label-success">201</span><a class="btn">Example heading </a></li>
-                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">12</span><a class="btn">Example heading </a></li>
-                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-success">5</span><a class="btn">Example heading </a></li>
-                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-default">46</span><a class="btn">Example heading </a></li>
+                                <li *ngFor="#question of listQuestion" class="list-group-item"><span class="label"[ngClass]="{'label-success': question.isAnswered,'label-default': !question.isAnswered}">{{question.upvote}}</span><a class="btn" [routerLink]="['PostPage',{id:question._id}]">{{question | posttitle}}</a></li>
+                                <li class="list-group-item"><span style="min-width: 45px;" class="label label-default"></span> <button type="button" (click)="loadmore('qus')" class="btn btn-primary"><span class="glyphicon glyphicon-cloud-download" aria-hidden="true"></span> Hiển thị thêm </button></li>
+
                             </ul>
                         </div>
                     </div>

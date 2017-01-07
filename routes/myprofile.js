@@ -4,9 +4,27 @@ var User = require('../models/user');
 var bcrypt = require('bcryptjs');
 var Question = require('../models/question');
 var Answer = require('../models/answer');
-var assert = require('assert')
+var assert = require('assert');
+var jwt = require('jsonwebtoken');
+
+
+router.use('/', function(req, res, next) {
+    jwt.verify(req.query.token, 'secret', function(error, decoded) {
+        if (error) {
+            return res.status(401).json({
+                title: 'Not Authenticated',
+                error: error
+            })
+        }
+        next();
+
+    })
+});
+
+
 router.get('/api/:id', function(req, res, next) {
-    User.findById(req.params.id, function(err, result) {
+    var decoded = jwt.decode(req.query.token);
+    User.findById(decoded.user._id, function(err, result) {
         if (err) {
             return res.status(500).json({
                 title: 'Shit happens at get my profile',
@@ -19,58 +37,139 @@ router.get('/api/:id', function(req, res, next) {
         var totalCorrectAns = 0;
 
         var queryCountCorrectAns = Answer.count({
-            userID: req.params.id,
+            userID: decoded.user._id,
             isBest: true
         });
         assert.ok(!(queryCountQuestion instanceof require('mpromise')));
 
         var queryCountQuestion = Question.count({
-            userID: req.params.id
+            userID: decoded.user._id
         });
         assert.ok(!(queryCountQuestion instanceof require('mpromise')));
 
-
-
         var queryCountAnswer = Answer.count({
-            userID: req.params.id
+            userID: decoded.user._id
         });
         assert.ok(!(queryCountAnswer instanceof require('mpromise')));
 
-        queryCountQuestion.then(function(doc) {
-            totalPost = totalPost + doc;
-            queryCountAnswer.then(function(doc) {
-                totalPost = totalPost + doc;
+
+        //Get question and filter time desc
+        var listQuestion = []
+        var queryGetQues = Question.find({
+            userID: decoded.user._id
+        }).limit(1).sort({
+            createdDate: -1
+        });
+        assert.ok(!(queryGetQues instanceof require('mpromise')));
+
+
+        //Get answers and filter time desc
+        var listAnswers = []
+        var queryGetAns = Answer.find({
+            userID: decoded.user._id
+        }).limit(1).sort({
+            createdDate: -1
+        });
+        assert.ok(!(queryGetAns instanceof require('mpromise')));
+        queryGetAns.then(function(doc) {
+            listAnswers = doc;
+            queryGetQues.then(function(doc) {
+                listQuestion = doc;
                 queryCountCorrectAns.then(function(doc) {
-                    totalCorrectAns =  doc;
+                    totalCorrectAns = doc;
                     res.status(201).json({
                         message: 'success',
                         obj: result,
-                        totalPost: totalPost,
+                        listQuestion: listQuestion,
+                        listAnswers: listAnswers,
                         totalCorrectAns: totalCorrectAns
                     });
                 });
-
             });
-        });
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+        })
     });
 });
 
+
+router.get('/activities', function(req, res, next) {
+    var decoded = jwt.decode(req.query.token);
+    console.log(req.query.quantity);
+    if (req.query.type === 'all') {
+        var listQ = [];
+        var listA = [];
+        var queryQ = Question.find({
+            userID: decoded.user._id
+        }).skip(parseInt(req.query.quantity)).limit(10).sort({
+            createdDate: -1
+        });
+        assert.ok(!(queryQ instanceof require('mpromise')));
+
+        var queryA = Answer.find({
+            userID: decoded.user._id
+        }).skip(parseInt(req.query.quantity)).limit(10).sort({
+            createdDate: -1
+        });
+        assert.ok(!(queryA instanceof require('mpromise')));
+        queryQ.then(function(doc) {
+            listQ = doc;
+            queryA.then(function(doc) {
+                listA = doc;
+                res.status(201).json({
+                    message: 'get activities success',
+                    obj: listQ.concat(listA)
+                });
+            });
+        });
+
+    }
+
+    if (req.query.type === 'ans') {
+        var query = Answer.find({
+            userID: decoded.user._id
+        }).skip(parseInt(req.query.quantity)).limit(10).sort({
+            createdDate: -1
+        });
+        assert.ok(!(query instanceof require('mpromise')));
+        query.then(function(doc) {
+            res.status(201).json({
+                message: 'get activities success',
+                obj: doc
+            });
+        });
+
+    }
+
+    if (req.query.type === 'qus') {
+        var query = Question.find({
+            userID: decoded.user._id
+        }).skip(parseInt(req.query.quantity)).limit(10).sort({
+            createdDate: -1
+        });
+        assert.ok(!(query instanceof require('mpromise')));
+        query.then(function(doc) {
+            res.status(201).json({
+                message: 'get activities success',
+                obj: doc
+            });
+        });
+    }
+
+    // User.findById(req.params.id, function(err, result) {
+    //     if (err) {
+    //         return res.status(500).json({
+    //             title: 'Shit happens at get my activities',
+    //             error: err
+    //         });
+    //     }
+    //     res.status(201).json({
+    //         message: 'get activities success',
+    //         obj: result
+    //     });
+    // });
+});
+
 router.post('/', function(req, res, next) {
+    var decoded = jwt.decode(req.query.token);
     var updateObj = {};
 
     if (req.body.password != null && req.body.password != '') {
