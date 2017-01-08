@@ -20,9 +20,20 @@ export class AskPageComponent implements OnInit {
         
     }
     
+    tags;
+    choosenTag = [];
     ngOnInit(){
         if (localStorage.getItem("token") === null) {
              window.location.href = "/#/signpage/";
+        }else {
+            this._askpageService.getTags()
+                .subscribe(data =>{
+
+                    this.tags = data.obj;
+                },
+                error =>{
+                    console.log(error)
+                });
         }
     }
     today = new Date().toString();
@@ -47,5 +58,16 @@ export class AskPageComponent implements OnInit {
             error => console.error(error) //Failure
             );
 
+    }
+    
+    onlyUnique(value, index, self) { 
+        return self.indexOf(value) === index;
+    }
+    
+    addTag(){
+        const pickedTag = document.getElementById("pickTags").value;
+        this.choosenTag.push(pickedTag);
+        
+        this.choosenTag = this.choosenTag.filter(this.onlyUnique);
     }
 }

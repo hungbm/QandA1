@@ -42,10 +42,11 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', 'rxj
                     return this.http.post('/askpage', body, { headers: headers }) //set up Observable and return this when function called
                         .map(function (response) { return response.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
-                    // var headers = new Headers();
-                    // headers.append('Content-Type','application/json');
-                    // return this.http.post('/askpage',JSON.stringify(topic),{headers: headers})
-                    //     .map(res => res.json());
+                };
+                AskPageService.prototype.getTags = function () {
+                    return this.http.get('/askpage')
+                        .map(function (response) { return response.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
                 };
                 AskPageService = __decorate([
                     core_1.Injectable(), 

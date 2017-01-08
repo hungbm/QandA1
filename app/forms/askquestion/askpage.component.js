@@ -35,13 +35,23 @@ System.register(['angular2/core', '../../services/askpage.service', '../../servi
                     this._askpageService = _askpageService;
                     this._userService = _userService;
                     this.http = http;
+                    this.choosenTag = [];
                     this.today = new Date().toString();
                     //questions: topic[];
                     this.questions = [];
                 }
                 AskPageComponent.prototype.ngOnInit = function () {
+                    var _this = this;
                     if (localStorage.getItem("token") === null) {
                         window.location.href = "/#/signpage/";
+                    }
+                    else {
+                        this._askpageService.getTags()
+                            .subscribe(function (data) {
+                            _this.tags = data.obj;
+                        }, function (error) {
+                            console.log(error);
+                        });
                     }
                 };
                 AskPageComponent.prototype.onSubmit = function (form) {
@@ -60,6 +70,14 @@ System.register(['angular2/core', '../../services/askpage.service', '../../servi
                         error) { return console.error(error); } //Failure
                      //Failure
                     );
+                };
+                AskPageComponent.prototype.onlyUnique = function (value, index, self) {
+                    return self.indexOf(value) === index;
+                };
+                AskPageComponent.prototype.addTag = function () {
+                    var pickedTag = document.getElementById("pickTags").value;
+                    this.choosenTag.push(pickedTag);
+                    this.choosenTag = this.choosenTag.filter(this.onlyUnique);
                 };
                 AskPageComponent = __decorate([
                     core_1.Component({

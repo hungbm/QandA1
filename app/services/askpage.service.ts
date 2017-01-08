@@ -23,10 +23,11 @@ export class AskPageService{
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
         ; 
-         
-        // var headers = new Headers();
-        // headers.append('Content-Type','application/json');
-        // return this.http.post('/askpage',JSON.stringify(topic),{headers: headers})
-        //     .map(res => res.json());
+
+    }
+    getTags(){
+         return this.http.get('/askpage')
+             .map((response: Response) => response.json())
+            .catch((error: Response) => Observable.throw(error.json()))
     }
 }

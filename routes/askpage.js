@@ -1,7 +1,38 @@
 var express = require('express');
 var router = express.Router();
 var Question = require('../models/question');
+var Tags = require("../models/tags");
+var assert = require('assert');
+var jwt = require('jsonwebtoken');
 
+
+router.get('/', function(req,res,next){
+    Tags.find(function(error, result){
+        if (error){
+          return res.status(500).json({
+              title: 'shit happens at get tags',
+              error: error
+          });
+        }
+        res.status(201).json({
+          message : 'get tags success',
+          obj: result
+      });
+    });
+});
+
+router.use('/', function(req, res, next) {
+    jwt.verify(req.query.token, 'secret', function(error, decoded) {
+        if (error) {
+            return res.status(401).json({
+                title: 'Not Authenticated',
+                error: error
+            })
+        }
+        next();
+
+    })
+});
 
 router.post('/', function(req, res, next){
   var question = new Question({
@@ -34,6 +65,11 @@ router.post('/', function(req, res, next){
 
   
 });
+
+
+
+
+
 
 
 module.exports = router;
