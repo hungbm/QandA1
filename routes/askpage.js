@@ -35,19 +35,22 @@ router.use('/', function(req, res, next) {
 });
 
 router.post('/', function(req, res, next){
+   var decoded = jwt.decode(req.query.token);
+   
   var question = new Question({
         upvote: req.body.upvote,
         view: req.body.upvote,
         createdDate: req.body.createdDate,
         isAnswered: req.body.isAnswered,
         isClosed: req.body.isClosed,
-        tag: req.body.tag,
+        tags: req.body.tags,
         userID : req.body.userID,
         question: {
             title: req.body.question.title,
             content: req.body.question.content
             }
   });
+  console.log(question);
   question.save(function(err, result){
       if (err){
           return res.status(500).json({

@@ -153,19 +153,6 @@ router.get('/activities', function(req, res, next) {
             });
         });
     }
-
-    // User.findById(req.params.id, function(err, result) {
-    //     if (err) {
-    //         return res.status(500).json({
-    //             title: 'Shit happens at get my activities',
-    //             error: err
-    //         });
-    //     }
-    //     res.status(201).json({
-    //         message: 'get activities success',
-    //         obj: result
-    //     });
-    // });
 });
 
 router.post('/', function(req, res, next) {

@@ -31,5 +31,20 @@ export class PostService {
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error));
     }
+    
+    submitOwnerModify(type, questionID){
 
+            const token = localStorage.getItem('token') 
+            ? '?token='+localStorage.getItem('token')
+            : '';
+            
+            const body = JSON.stringify({
+                type: type
+            });
+            const headers = new Headers({'Content-Type': 'application/json'});
+            return this.http.post('/post/api/'+questionID+token,body,{headers: headers})
+                .map((response: Response) => response.json())
+                .catch((error: Response) => Observable.throw(error.json()));
+       
+    }
 }

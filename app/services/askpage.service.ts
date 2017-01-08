@@ -14,12 +14,16 @@ export class AskPageService{
         console.log('AskPage service Initialized...');
     }   
     submitQuestion(question: Question){
-
+        
+        const token = localStorage.getItem('token') 
+            ? '?token='+localStorage.getItem('token')
+            : '';
+        
         this.question.push(question);
         const body = JSON.stringify(question);
         //console.log(body);
         const headers = new Headers({'Content-Type':'application/json'});
-        return this.http.post('/askpage',body, {headers: headers}) //set up Observable and return this when function called
+        return this.http.post('/askpage'+token,body, {headers: headers}) //set up Observable and return this when function called
             .map((response: Response) => response.json())
             .catch((error: Response) => Observable.throw(error.json()))
         ; 

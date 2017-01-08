@@ -53,13 +53,16 @@ System.register(['angular2/core', '../../services/askpage.service', '../../servi
                             console.log(error);
                         });
                     }
+                    $(function () {
+                        $('[data-toggle="tooltip"]').tooltip();
+                    });
                 };
                 AskPageComponent.prototype.onSubmit = function (form) {
                     //Check logged in or not
                     if (!this._userService.isLoggedIn()) {
                         window.location.href = "/#/signpage/";
                     }
-                    var question = new question_1.Question(0, 0, this.today, false, false, localStorage.getItem('userId'), { title: form.value.title, content: form.value.content }, []);
+                    var question = new question_1.Question(0, 0, this.today, false, false, localStorage.getItem('userId'), { title: form.value.title, content: form.value.content }, this.choosenTag);
                     //console.log(question);
                     this._askpageService.submitQuestion(question)
                         .subscribe(function (data) {
@@ -78,6 +81,11 @@ System.register(['angular2/core', '../../services/askpage.service', '../../servi
                     var pickedTag = document.getElementById("pickTags").value;
                     this.choosenTag.push(pickedTag);
                     this.choosenTag = this.choosenTag.filter(this.onlyUnique);
+                };
+                AskPageComponent.prototype.deleteThis = function (a) {
+                    this.choosenTag = this.choosenTag.filter(function (i) {
+                        return i != a;
+                    });
                 };
                 AskPageComponent = __decorate([
                     core_1.Component({

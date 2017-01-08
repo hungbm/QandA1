@@ -8,12 +8,15 @@ import { HTTP_PROVIDERS } from 'angular2/http';
 import { topic } from '../static_type/topic';
 import { Question } from '../static_type/question';
 import { Answer } from '../static_type/answer';
+import { UserNamePipe } from './postcontent.pipe';
+
 @Component({
     selector: 'postcontent',
     templateUrl: 'app/posts/postcontent.component.html',
     providers: [PostService,UsersService, HomeService, HTTP_PROVIDERS]
     ,
-    styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css']
+    styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css'],
+    pipes: [UserNamePipe]
 })
 export class PostContentComponent implements OnInit {
     test = 1;
@@ -21,7 +24,11 @@ export class PostContentComponent implements OnInit {
     topic;
     answers = [];
     isLoading = false;
+    isClosed=false;
+    isAnswered=false;
     today = new Date().toString();
+    
+    owner;
     constructor(private _postService: PostService, private _userService: UsersService, 
         private _routePrams: RouteParams) {
         
@@ -36,11 +43,14 @@ export class PostContentComponent implements OnInit {
         this._postService.getPost(this._routePrams.get("id"))
             .subscribe(//(question: Question) =>{}
             responseData => {
-                //console.log(question);
+            console.log(responseData);
                 this.question = responseData.obj;
                 this.topic = responseData.obj;
                 this.answers = responseData.answers;
-                console.log(this.answers)
+                this.isClosed = responseData.obj.isClosed;
+                this.isAnswered = responseData.obj.isAnswered;
+                this.owner = responseData.questionOwner;
+                console.log(this.owner);
             }, error => console.error(error) //Failure
             );
         // get content of Answer
@@ -74,4 +84,29 @@ export class PostContentComponent implements OnInit {
         x.className = "show";
         setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
     }
+    
+    ownerButton(type){
+
+            this._postService.submitOwnerModify(type,this._routePrams.get("id"))
+            .subscribe(
+            data => {
+                console.log(data);
+                if (type === 'close'){
+                    this.isClosed = true;
+                }
+                if (type === 'answered'){
+                    this.isAnswered = true;
+                }
+                if (type === 'edit'){
+                    
+                }
+            }, //Success
+            error => {
+               console.log(error);
+            } //Failure
+            );
+
+
+    }
+    
 }

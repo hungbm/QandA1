@@ -35,6 +35,9 @@ export class AskPageComponent implements OnInit {
                     console.log(error)
                 });
         }
+        $(function () {
+          $('[data-toggle="tooltip"]').tooltip()
+        })
     }
     today = new Date().toString();
     //questions: topic[];
@@ -47,7 +50,7 @@ export class AskPageComponent implements OnInit {
              window.location.href = "/#/signpage/";
         }
         const question = new Question(0, 0, this.today, false, false, localStorage.getItem('userId'),
-            { title: form.value.title, content: form.value.content }, []);
+            { title: form.value.title, content: form.value.content }, this.choosenTag);
         //console.log(question);
         this._askpageService.submitQuestion(question)
             .subscribe(
@@ -69,5 +72,11 @@ export class AskPageComponent implements OnInit {
         this.choosenTag.push(pickedTag);
         
         this.choosenTag = this.choosenTag.filter(this.onlyUnique);
+    }
+    
+    deleteThis(a){
+        this.choosenTag = this.choosenTag.filter(function(i){
+           return i != a 
+        });
     }
 }

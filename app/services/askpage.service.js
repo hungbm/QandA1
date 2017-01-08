@@ -35,11 +35,14 @@ System.register(['angular2/core', 'angular2/http', 'rxjs/add/operator/map', 'rxj
                     console.log('AskPage service Initialized...');
                 }
                 AskPageService.prototype.submitQuestion = function (question) {
+                    var token = localStorage.getItem('token')
+                        ? '?token=' + localStorage.getItem('token')
+                        : '';
                     this.question.push(question);
                     var body = JSON.stringify(question);
                     //console.log(body);
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
-                    return this.http.post('/askpage', body, { headers: headers }) //set up Observable and return this when function called
+                    return this.http.post('/askpage' + token, body, { headers: headers }) //set up Observable and return this when function called
                         .map(function (response) { return response.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
                 };

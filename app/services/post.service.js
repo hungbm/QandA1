@@ -51,6 +51,18 @@ System.register(['angular2/http', 'angular2/core', 'rxjs/add/operator/map', 'rxj
                         .map(function (response) { return response.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error); });
                 };
+                PostService.prototype.submitOwnerModify = function (type, questionID) {
+                    var token = localStorage.getItem('token')
+                        ? '?token=' + localStorage.getItem('token')
+                        : '';
+                    var body = JSON.stringify({
+                        type: type
+                    });
+                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+                    return this.http.post('/post/api/' + questionID + token, body, { headers: headers })
+                        .map(function (response) { return response.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
+                };
                 PostService = __decorate([
                     core_1.Injectable(), 
                     __metadata('design:paramtypes', [http_1.Http])

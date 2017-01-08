@@ -1,4 +1,4 @@
-System.register(['angular2/core', '../services/homepage.service', '../services/post.service', '../services/users.service', 'angular2/router', 'angular2/http', '../static_type/answer'], function(exports_1, context_1) {
+System.register(['angular2/core', '../services/homepage.service', '../services/post.service', '../services/users.service', 'angular2/router', 'angular2/http', '../static_type/answer', './postcontent.pipe'], function(exports_1, context_1) {
     "use strict";
     var __moduleName = context_1 && context_1.id;
     var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
@@ -10,7 +10,7 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, homepage_service_1, post_service_1, users_service_1, router_1, http_1, answer_1;
+    var core_1, homepage_service_1, post_service_1, users_service_1, router_1, http_1, answer_1, postcontent_pipe_1;
     var PostContentComponent;
     return {
         setters:[
@@ -34,6 +34,9 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
             },
             function (answer_1_1) {
                 answer_1 = answer_1_1;
+            },
+            function (postcontent_pipe_1_1) {
+                postcontent_pipe_1 = postcontent_pipe_1_1;
             }],
         execute: function() {
             PostContentComponent = (function () {
@@ -44,6 +47,8 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                     this.test = 1;
                     this.answers = [];
                     this.isLoading = false;
+                    this.isClosed = false;
+                    this.isAnswered = false;
                     this.today = new Date().toString();
                 }
                 PostContentComponent.prototype.isLoggedIn = function () {
@@ -56,11 +61,14 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                         .subscribe(//(question: Question) =>{}
                     function (//(question: Question) =>{}
                         responseData) {
-                        //console.log(question);
+                        console.log(responseData);
                         _this.question = responseData.obj;
                         _this.topic = responseData.obj;
                         _this.answers = responseData.answers;
-                        console.log(_this.answers);
+                        _this.isClosed = responseData.obj.isClosed;
+                        _this.isAnswered = responseData.obj.isAnswered;
+                        _this.owner = responseData.questionOwner;
+                        console.log(_this.owner);
                     }, function (error) { return console.error(error); } //Failure
                      //Failure
                     );
@@ -94,12 +102,34 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                     x.className = "show";
                     setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
                 };
+                PostContentComponent.prototype.ownerButton = function (type) {
+                    var _this = this;
+                    this._postService.submitOwnerModify(type, this._routePrams.get("id"))
+                        .subscribe(function (data) {
+                        console.log(data);
+                        if (type === 'close') {
+                            _this.isClosed = true;
+                        }
+                        if (type === 'answered') {
+                            _this.isAnswered = true;
+                        }
+                        if (type === 'edit') {
+                        }
+                    }, //Success
+                    function (//Success
+                        error) {
+                        console.log(error);
+                    } //Failure
+                     //Failure
+                    );
+                };
                 PostContentComponent = __decorate([
                     core_1.Component({
                         selector: 'postcontent',
                         templateUrl: 'app/posts/postcontent.component.html',
                         providers: [post_service_1.PostService, users_service_1.UsersService, homepage_service_1.HomeService, http_1.HTTP_PROVIDERS],
-                        styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css']
+                        styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css'],
+                        pipes: [postcontent_pipe_1.UserNamePipe]
                     }), 
                     __metadata('design:paramtypes', [post_service_1.PostService, users_service_1.UsersService, router_1.RouteParams])
                 ], PostContentComponent);
