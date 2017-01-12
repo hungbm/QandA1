@@ -8,7 +8,7 @@
         <div class="panel-body">
             <table style="width:100%">
                 <div class="jumbotron">
-                    <tr>
+                    <tr style="width:100%">
                         <td>
                             <div class="media">
                                 <div class="media-left">
@@ -26,7 +26,10 @@
                             </div>
                         </td>
                         <td>
-                            {{topic.question.content}}
+                            <div >
+                                {{topic.question.content}}
+                            </div>
+                            
                         </td>
                     </tr>
                     <tr>
@@ -40,7 +43,6 @@
                             <div class="btn-group pull-right" role="group" aria-label="...">
                                 <button *ngIf="!isClosed" type="button" class="btn btn-danger" (click)="ownerButton('close')">Đóng chủ đề</button>
                                 <button *ngIf="!isAnswered" type="button" class="btn btn-success" (click)="ownerButton('answered')">Đã được trả lời</button>
-                                <button type="button" class="btn btn-warning">Sửa</button>
                             </div>
                         </td>
 
@@ -59,6 +61,15 @@
                 <table style="width:100%">
                     <div class="jumbotron">
                         <tr>
+                            <td>
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="{{owner._id}}">
+                                        <img class="media-object" src="{{owner.avatarUrl}}" alt="64x64" style="width: 64px; height: 64px;"> {{owner.name | nameOfUser}}
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
                             <td>
                                 <div style="padding-right: 30px;" class="btn-group-vertical">
                                     <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span></button>
@@ -110,6 +121,15 @@
                 <div class="jumbotron" [ngStyle]="{ border: answer.isBest ? '5px solid #2ecc71': '' } ">
                     <tr>
                         <td>
+                            <div class="media">
+                                <div class="media-left">
+                                    <a href="{{owner._id}}">
+                                        <img class="media-object" src="{{owner.avatarUrl}}" alt="64x64" style="width: 64px; height: 64px;"> {{owner.name | nameOfUser}}
+                                    </a>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
                             <div style="padding-right: 30px;" class="btn-group-vertical">
                                 <button type="button" class="btn btn-default"><span class="glyphicon glyphicon-triangle-top" aria-hidden="true"></span></button>
                                 <button style="min-width: 45px;pointer-events: none;" type="button" class="btn btn-default">{{answer.upvote}}</button>
@@ -119,6 +139,20 @@
                         <td>
                             {{answer.content}}
                         </td>
+                    </tr>
+                    <tr>
+                        <td>
+
+                        </td>
+                        <td>
+
+                        </td>
+                        <td>
+                            <div class="btn-group pull-right" role="group" aria-label="...">
+                                <button type="button" class="btn btn-success" (click)="ownerButton({{answer._id}}')">Chap nhan cau tra loi nay</button>
+                            </div>
+                        </td>
+
                     </tr>
                 </div>
             </table>

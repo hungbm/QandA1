@@ -22,7 +22,7 @@ export class MyProfileComponent implements OnInit {
     email = new String();
     name;
     point;
-    summary;
+    summary1;
     totalPost;
     totalCorrectAns;
     
@@ -59,8 +59,7 @@ export class MyProfileComponent implements OnInit {
                 this.email = data.obj.email;
                 this.name = data.obj.name;
                 this.point = data.obj.point;
-                this.summary = data.obj.summary;
-                
+                this.summary1 = data.obj.summary;
                 this.listQuestion = data.listQuestion;
                 this.listAnswers = data.listAnswers;
                 this.listPost = this.listQuestion.concat(this.listAnswers);

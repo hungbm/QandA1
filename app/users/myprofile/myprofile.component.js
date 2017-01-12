@@ -61,7 +61,7 @@ System.register(['angular2/core', '../../services/users.service', 'angular2/http
                         _this.email = data.obj.email;
                         _this.name = data.obj.name;
                         _this.point = data.obj.point;
-                        _this.summary = data.obj.summary;
+                        _this.summary1 = data.obj.summary;
                         _this.listQuestion = data.listQuestion;
                         _this.listAnswers = data.listAnswers;
                         _this.listPost = _this.listQuestion.concat(_this.listAnswers);
