@@ -12,7 +12,11 @@ export class PostService {
         console.log('Post service Initialized...');
     }
     getPost(id) {
-        return this.http.get('/post/api/' + id)
+        const userId = localStorage.getItem('userId') 
+            ? '?userId='+localStorage.getItem('userId')
+            : '';
+            
+        return this.http.get('/post/api/' + id+userId)
             .map((response: Response) => {
                 const responseData = response.json();
                 return responseData;
@@ -48,5 +52,24 @@ export class PostService {
                 .map((response: Response) => response.json())
                 .catch((error: Response) => Observable.throw(error.json()));
        
+    }
+    
+    vote(value,postID,questionID){
+        const isQuestion = false;
+        if(postID === questionID){
+            isQuestion= true;
+        }
+        const token = localStorage.getItem('token') 
+            ? '?token='+localStorage.getItem('token')
+            : '';
+            const body = JSON.stringify({
+                value: value,
+                postID: postID,
+                isQuestion
+            });
+            const headers = new Headers({'Content-Type': 'application/json'});
+            return this.http.post('/post/api/'+questionID+'/vote'+token,body,{headers: headers})
+                .map((response: Response) => response.json())
+                .catch((error: Response) => Observable.throw(error.json()));
     }
 }

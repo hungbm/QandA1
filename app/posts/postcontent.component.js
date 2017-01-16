@@ -73,9 +73,44 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                         _this.isAnswered = responseData.obj.isAnswered;
                         _this.owner = responseData.questionOwner;
                         _this.answerOwner = responseData.answerOwner;
-                        for (var i = 0; i < _this.answers.length; i++) {
+                        var ObjState1 = responseData.postState.voted.filter(function (el) {
+                            return el.postId === responseData.obj._id;
+                        });
+                        //this.answers[i].state = ObjState.state;
+                        console.log(ObjState1["0"]);
+                        if (typeof (ObjState1["0"]) !== 'undefined') {
+                            if (ObjState1["0"].state == 1) {
+                                _this.topic.state = true;
+                            }
+                            else if (ObjState1["0"].state == -1) {
+                                _this.topic.state = false;
+                            }
+                            ;
+                        }
+                        var _loop_1 = function() {
                             _this.answers[i].avatarUrl = _this.answerOwner[i].avatarUrl;
                             _this.answers[i].name = _this.answerOwner[i].name;
+                            var answerID = _this.answers[i]._id;
+                            if (responseData.postState != null && typeof (responseData.postState) !== 'undefined') {
+                                ObjState = responseData.postState.voted.filter(function (el) {
+                                    return el.postId === answerID;
+                                });
+                                //this.answers[i].state = ObjState.state;
+                                console.log(ObjState["0"]);
+                                if (typeof (ObjState["0"]) !== 'undefined') {
+                                    if (ObjState["0"].state == 1) {
+                                        _this.answers[i].state = true;
+                                    }
+                                    else if (ObjState["0"].state == -1) {
+                                        _this.answers[i].state = false;
+                                    }
+                                    ;
+                                }
+                            }
+                        };
+                        var ObjState;
+                        for (var i = 0; i < _this.answers.length; i++) {
+                            _loop_1();
                         }
                         if (responseData.questionOwner._id === localStorage.getItem('userId')) {
                             _this.isOwner = true;
@@ -138,6 +173,30 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                     function (//Success
                         error) {
                         console.log(error);
+                    } //Failure
+                     //Failure
+                    );
+                };
+                PostContentComponent.prototype.vote = function (value, postID) {
+                    var _this = this;
+                    //alert(value+10 +"   "+postID);
+                    this._postService.vote(value, postID, this._routePrams.get("id"))
+                        .subscribe(function (data) {
+                        if (postID === _this._routePrams.get("id")) {
+                            _this.topic.upvote = _this.topic.upvote + value;
+                            _this.topic.state = !_this.topic.state;
+                        }
+                        else {
+                            var objectNeeded = _this.answers.filter(function (objectNeeded) {
+                                return objectNeeded._id === postID;
+                            })[0];
+                            _this.answers[_this.answers.indexOf(objectNeeded)].upvote = _this.answers[_this.answers.indexOf(objectNeeded)].upvote + value;
+                            _this.answers[_this.answers.indexOf(objectNeeded)].state = !_this.answers[_this.answers.indexOf(objectNeeded)].state;
+                        }
+                    }, //Success
+                    function (//Success
+                        error) {
+                        console.error(error);
                     } //Failure
                      //Failure
                     );

@@ -3,13 +3,16 @@ var router = express.Router();
 var Question = require('../models/question');
 var Answer = require('../models/answer');
 var User = require('../models/user');
+var StoreID = require('../models/storeID');
 var assert = require('assert');
+var jwt = require('jsonwebtoken');
 router.get('/api/:id', function(req, res, next) {
-    //console.log("debug3");
-    
+
     Question.findById(req.params.id, function(err, reply) {
-        console.log("debug2:", req.param.id);
         
+        if(req.query.userId){
+            
+        }
         if (err) {
             return res.status(500).json({
                 title: 'Shit happens',
@@ -31,131 +34,48 @@ router.get('/api/:id', function(req, res, next) {
         var answerOwner = [];
         var answers = [];
         answers = reply.answers;
-        
+
         var answerlength = answers.length;
         var Promises = [];
-        
+
         for (var i = 0; i < answerlength; i++) {
             Promises.push(Answer.findById((answers[i])));
         }
-        
+
         Promises.push(User.findById(reply.userID).select('_id name avatarUrl'));
+        Promises.push(StoreID.findOne({userId: req.query.userId}));
         
         Promise.all(Promises).then(ansContents => {
-                //var owner = ansContents[ansContents.length - 1];
-                var owner = ansContents.pop();
-                //get data of user who answers
-                console.log(ansContents);
-                var count = 0;
-                var newPromises = ansContents.map((obj) => {
-                    var queryUserAnswer = User.findById(obj.userID).select('name avatarUrl');
-                    return queryUserAnswer.then((doc) => {
-                        count++;
-                        return doc;
-                    });
+            //var owner = ansContents[ansContents.length - 1];
+            var postState = ansContents.pop();
+            var owner = ansContents.pop();
+            //get data of user who answers
+            var count = 0;
+            var newPromises = ansContents.map((obj) => {
+                var queryUserAnswer = User.findById(obj.userID).select('name avatarUrl');
+                return queryUserAnswer.then((doc) => {
+                    count++;
+                    return doc;
                 });
-                Promise.all(newPromises).then(docs => {
-                    //console.log("debug1: ", docs);
+            });
+            Promise.all(newPromises).then(docs => {
+
                     res.json({
                         message: 'Success',
                         obj: reply,
-                        //questionOwner: ansContents.pop(),
+                        postState: postState,
                         questionOwner: owner,
                         answers: ansContents,
                         answerOwner: docs
                     });
                 })
-                    //This code will work
+                //This code will work
 
-                }).catch(err => res.json({
-                title: 'Shit happens',
-                error: err
-            }));
-        //tu tu
-        
-        // var answerOwner = [];
-        // var answers = [];
-        // answers = reply.answers;
-        
-        // var answerlength = answers.length;
-        // var Promises = [];
-        // for (i = 0; i < answerlength; i++) {
-        //     Promises.push(Answer.findById((answers[i])));
-        // }
-        // Promises.push(User.findById(reply.userID).select('_id name avatarUrl'));
-        // Promise.all(Promises).then(ansContents => {
-        //         var owner = ansContents.pop();
-        //         //get data of user who answers
-        //         var count = 0;
-        //         ansContents.forEach(function(obj) {
-        //                 var queryUserAnswer = User.findById(obj.userID).select('_id name avatarUrl');
-        //                 queryUserAnswer.then(function(doc) {
-        //                         //console.log(doc);
-        //                         answerOwner.push(doc);
-        //                         //console.log(ansContents[x].name = doc.name);
-        //                         count++;
-        //                         //console.log(count == ansContents.length);
-        //                     });
-        //                     if (count == ansContents.length) {
-        //                         console.log(answerOwner);
-        //                         res.json({
-        //                             message: 'Success',
-        //                             obj: reply,
-        //                             //questionOwner: ansContents.pop(),
-        //                             questionOwner: owner,
-        //                             answers: ansContents,
-        //                             answerOwner: answerOwner
-        //                         });
-        //                     }
-        //                 });
-        //             //This code will work
-
-        //         }).catch(err => res.json({
-        //         title: 'Shit happens',
-        //         error: err
-        //     }));
-            
-        //end
-
-        //old code
-        /*
-        var answerOwner = [];
-        var answers = [];
-        answers = reply.answers;
-        var answerlength = answers.length;
-        var Promises = [];
-        for (i = 0; i < answerlength; i++) {
-            Promises.push(Answer.findById((answers[i])));
-        }
-        Promises.push(User.findById(reply.userID).select('_id name avatarUrl'));
-        Promise.all(Promises).then(ansContents => {
-            var owner = ansContents.pop();
-            //get data of user who answers
-            for(x = 0; x<ansContents.length; x++){
-                var queryUserAnswer = User.findById(ansContents[x].userID).select('_id name avatarUrl');
-                queryUserAnswer.then(function(doc){
-                    console.log(doc);
-                    answerOwner.push(ansContents[x]);
-                    //console.log(ansContents[x].name = doc.name);
-                });
-            }
-            
-            //This code will work
-            res.json({
-                message: 'Success',
-                obj: reply,
-                //questionOwner: ansContents.pop(),
-                questionOwner: owner,
-                answers: ansContents,
-                answerOwner: answerOwner
-                
-            });
         }).catch(err => res.json({
             title: 'Shit happens',
             error: err
         }));
-        */
-        //end old code
+
     });
 });
 
@@ -201,7 +121,7 @@ router.post('/api/:id', function(req, res, next) {
                 });
         }
         if (req.body.type === "isBest") {
-            console.log(req.query.answerID);
+
             var updateAnswerQuery = Answer.findByIdAndUpdate(req.query.answerID, {
                 isBest: true
             });
@@ -254,6 +174,150 @@ router.post('/api/:id', function(req, res, next) {
 
         });
     }
+});
+
+router.use('/', function(req, res, next) {
+    jwt.verify(req.query.token, 'secret', function(error, decoded) {
+        if (error) {
+            return res.status(401).json({
+                title: 'Not Authenticated',
+                error: error
+            })
+        }
+        next();
+
+    })
+});
+
+router.post('/api/:id/vote', function(req, res, next) {
+    var decoded = jwt.decode(req.query.token);
+    var queryPost;
+    if (req.body.isQuestion == true) {
+        queryPost = Question.findByIdAndUpdate(req.body.postID, {
+            $inc: {
+                upvote: req.body.value
+            }
+        });
+
+    }
+    else {
+        queryPost = Answer.findByIdAndUpdate(req.body.postID, {
+            $inc: {
+                upvote: req.body.value
+            }
+        });
+
+    }
+    assert.ok(!(queryPost instanceof require('mpromise')));
+
+
+    //Check user on store yet
+    StoreID.findOne({
+            userId: decoded.user._id
+        }, function(err, result) {
+
+            if (err) {
+                return res.status(500).json({
+                    title: 'Shit happened at check user stored in StoreID',
+                    error: err
+                });
+            }
+            //If not exist
+            if (!result) {
+                StoreID.create({
+                    userId: decoded.user._id,
+                    voted: [{
+                        postId: req.body.postID,
+                        state: req.body.value
+                    }]
+                }, function(err, createdItem) {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'Shit happened at creat store',
+                            error: err
+                        });
+                    }
+                    //Created success
+                 
+                });
+            }
+            else { //exist -> check if postId existed
+                StoreID.findOne({
+                    userId: decoded.user._id,
+                    voted: {
+                        $elemMatch: {
+                            postId: req.body.postID
+                        }
+                    }
+                }, function(err, resultFindPost) {
+                    if (err) {
+                        return res.status(500).json({
+                            title: 'Shit happened at find postId',
+                            error: err
+                        });
+                    }
+                    if (!resultFindPost) { //not found
+                        //update voted array
+                        StoreID.update({
+                                userId: decoded.user._id
+                            }, {
+                                $push: {
+                                    voted: {
+                                        postId: req.body.postID,
+                                        state: req.body.value
+                                    }
+                                }
+                            },
+                            function(err, result) {
+                                if (err) {
+                                    return res.status(500).json({
+                                        title: 'Shit happened at push store in array',
+                                        error: err
+                                    });
+                                }
+                       
+                            });
+                    }
+                    else { //Found post
+                        StoreID.update({
+                                userId: decoded.user._id,
+                                "voted.postId": req.body.postID
+                            }, {
+                                $set: {
+                                    "voted.$.state": req.body.value
+                                }
+                            },
+                            function(err, result) {
+                                if (err) {
+                                    return res.status(500).json({
+                                        title: 'Shit happened at change state',
+                                        error: err
+                                    });
+                                }
+
+                            });
+                    }
+                });
+            }
+            queryPost.then(function(doc) {
+                console.log(doc);
+                res.status(201).json({
+                    message: 'Saved',
+                    obj: doc
+                });
+            }).catch(err => res.json({
+                title: 'Shit happens at promise queryPost',
+                error: err
+            }));
+        }
+
+    );
+
+    //do promise here:
+
+
+
+
 });
 
 

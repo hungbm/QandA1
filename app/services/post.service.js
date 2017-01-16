@@ -35,7 +35,10 @@ System.register(['angular2/http', 'angular2/core', 'rxjs/add/operator/map', 'rxj
                     console.log('Post service Initialized...');
                 }
                 PostService.prototype.getPost = function (id) {
-                    return this.http.get('/post/api/' + id)
+                    var userId = localStorage.getItem('userId')
+                        ? '?userId=' + localStorage.getItem('userId')
+                        : '';
+                    return this.http.get('/post/api/' + id + userId)
                         .map(function (response) {
                         var responseData = response.json();
                         return responseData;
@@ -64,6 +67,24 @@ System.register(['angular2/http', 'angular2/core', 'rxjs/add/operator/map', 'rxj
                     });
                     var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
                     return this.http.post('/post/api/' + questionID + token, body, { headers: headers })
+                        .map(function (response) { return response.json(); })
+                        .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
+                };
+                PostService.prototype.vote = function (value, postID, questionID) {
+                    var isQuestion = false;
+                    if (postID === questionID) {
+                        isQuestion = true;
+                    }
+                    var token = localStorage.getItem('token')
+                        ? '?token=' + localStorage.getItem('token')
+                        : '';
+                    var body = JSON.stringify({
+                        value: value,
+                        postID: postID,
+                        isQuestion: isQuestion
+                    });
+                    var headers = new http_1.Headers({ 'Content-Type': 'application/json' });
+                    return this.http.post('/post/api/' + questionID + '/vote' + token, body, { headers: headers })
                         .map(function (response) { return response.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error.json()); });
                 };

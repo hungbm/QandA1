@@ -42,6 +42,8 @@ export class PostContentComponent implements OnInit {
         return this._userService.isLoggedIn();
     }
     
+  
+    
     ngOnInit() {
         // get content of topic
         this._postService.getPost(this._routePrams.get("id"))
@@ -55,13 +57,52 @@ export class PostContentComponent implements OnInit {
                 this.isAnswered = responseData.obj.isAnswered;
                 this.owner = responseData.questionOwner;
                 this.answerOwner = responseData.answerOwner;
+                
+                
+                
+                var ObjState1 = responseData.postState.voted.filter(function(el){
+                            return el.postId === responseData.obj._id;
+                        });
+                        //this.answers[i].state = ObjState.state;
+                        console.log(ObjState1["0"]);
+                        if(typeof(ObjState1["0"])!=='undefined'){
+                            
+                            if (ObjState1["0"].state == 1){
+                                this.topic.state = true;
+            
+                            }else if(ObjState1["0"].state == -1) {this.topic.state = false};
+                            
+                        }
+                
+                
+                
                 for (var i=0; i< this.answers.length; i++){
                     this.answers[i].avatarUrl = this.answerOwner[i].avatarUrl;
                     this.answers[i].name = this.answerOwner[i].name;
+                    const answerID = this.answers[i]._id;
+                    
+                    if(responseData.postState!= null && typeof(responseData.postState)!=='undefined'){
+                        var ObjState = responseData.postState.voted.filter(function(el){
+                            return el.postId === answerID;
+                        });
+                        //this.answers[i].state = ObjState.state;
+                        console.log(ObjState["0"]);
+                        if(typeof(ObjState["0"])!=='undefined'){
+                            
+                            if (ObjState["0"].state == 1){
+                                this.answers[i].state = true;
+            
+                            }else if(ObjState["0"].state == -1) {this.answers[i].state = false};
+                            
+                        }
+                    }
                 }
+                
                  if(responseData.questionOwner._id ===localStorage.getItem('userId')){
                         this.isOwner =true;
                     }
+                    
+                
             }, error => console.error(error) //Failure
             );
         
@@ -126,10 +167,32 @@ export class PostContentComponent implements OnInit {
                console.log(error);
             } //Failure
             );
-
-
     }
     
-    
+    vote(value, postID){
+        //alert(value+10 +"   "+postID);
+        this._postService.vote(value,postID,this._routePrams.get("id"))
+            .subscribe(
+            data => {
+                if(postID === this._routePrams.get("id")){
+                    this.topic.upvote = this.topic.upvote + value;
+                    this.topic.state = !this.topic.state;
+                }else{
+                    var objectNeeded = this.answers.filter(function(objectNeeded){
+                        return objectNeeded._id === postID;
+                    })[0];
+                    
+                    this.answers[this.answers.indexOf(objectNeeded)].upvote = this.answers[this.answers.indexOf(objectNeeded)].upvote + value ;
+                     this.answers[this.answers.indexOf(objectNeeded)].state = !this.answers[this.answers.indexOf(objectNeeded)].state;
+                }
+                
+                
+                
+            }, //Success
+            error => {
+                console.error(error);
+            } //Failure
+            );
+    }
     
 }
