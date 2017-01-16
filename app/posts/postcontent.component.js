@@ -10,7 +10,7 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
     var __metadata = (this && this.__metadata) || function (k, v) {
         if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
     };
-    var core_1, homepage_service_1, post_service_1, users_service_1, router_1, http_1, answer_1, postcontent_pipe_1;
+    var core_1, homepage_service_1, post_service_1, users_service_1, router_1, http_1, answer_1, postcontent_pipe_1, router_2;
     var PostContentComponent;
     return {
         setters:[
@@ -28,6 +28,7 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
             },
             function (router_1_1) {
                 router_1 = router_1_1;
+                router_2 = router_1_1;
             },
             function (http_1_1) {
                 http_1 = http_1_1;
@@ -50,6 +51,9 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                     this.isClosed = false;
                     this.isAnswered = false;
                     this.today = new Date().toString();
+                    this.answerOwner = [];
+                    this.isOwner = false;
+                    this.ownerID = localStorage.getItem('userId');
                 }
                 PostContentComponent.prototype.isLoggedIn = function () {
                     return this._userService.isLoggedIn();
@@ -68,11 +72,17 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                         _this.isClosed = responseData.obj.isClosed;
                         _this.isAnswered = responseData.obj.isAnswered;
                         _this.owner = responseData.questionOwner;
-                        console.log(_this.owner);
+                        _this.answerOwner = responseData.answerOwner;
+                        for (var i = 0; i < _this.answers.length; i++) {
+                            _this.answers[i].avatarUrl = _this.answerOwner[i].avatarUrl;
+                            _this.answers[i].name = _this.answerOwner[i].name;
+                        }
+                        if (responseData.questionOwner._id === localStorage.getItem('userId')) {
+                            _this.isOwner = true;
+                        }
                     }, function (error) { return console.error(error); } //Failure
                      //Failure
                     );
-                    // get content of Answer
                 };
                 PostContentComponent.prototype.onSubmit = function (form) {
                     var _this = this;
@@ -102,9 +112,13 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                     x.className = "show";
                     setTimeout(function () { x.className = x.className.replace("show", ""); }, 3000);
                 };
-                PostContentComponent.prototype.ownerButton = function (type) {
+                PostContentComponent.prototype.ownerButton = function (type, answerID) {
                     var _this = this;
-                    this._postService.submitOwnerModify(type, this._routePrams.get("id"))
+                    if (answerID === void 0) { answerID = null; }
+                    // if (answerID!= null){
+                    //     alert(answerID);
+                    // }
+                    this._postService.submitOwnerModify(type, this._routePrams.get("id"), answerID)
                         .subscribe(function (data) {
                         console.log(data);
                         if (type === 'close') {
@@ -113,7 +127,12 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                         if (type === 'answered') {
                             _this.isAnswered = true;
                         }
-                        if (type === 'edit') {
+                        if (type === 'isBest') {
+                            //find object in array using value of key
+                            var objectNeeded = _this.answers.filter(function (objectNeeded) {
+                                return objectNeeded._id === answerID;
+                            })[0];
+                            _this.answers[_this.answers.indexOf(objectNeeded)].isBest = true;
                         }
                     }, //Success
                     function (//Success
@@ -128,6 +147,7 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                         selector: 'postcontent',
                         templateUrl: 'app/posts/postcontent.component.html',
                         providers: [post_service_1.PostService, users_service_1.UsersService, homepage_service_1.HomeService, http_1.HTTP_PROVIDERS],
+                        directives: [router_2.RouterLink],
                         styleUrls: ['assets/stylesheets/styles.css', 'assets/stylesheets/metro-bootstrap.css', 'assets/stylesheets/font-awesome.css'],
                         pipes: [postcontent_pipe_1.UserNamePipe]
                     }), 

@@ -51,10 +51,14 @@ System.register(['angular2/http', 'angular2/core', 'rxjs/add/operator/map', 'rxj
                         .map(function (response) { return response.json(); })
                         .catch(function (error) { return Rx_1.Observable.throw(error); });
                 };
-                PostService.prototype.submitOwnerModify = function (type, questionID) {
+                PostService.prototype.submitOwnerModify = function (type, questionID, answerID) {
+                    if (answerID === void 0) { answerID = null; }
                     var token = localStorage.getItem('token')
                         ? '?token=' + localStorage.getItem('token')
                         : '';
+                    if (answerID != null) {
+                        token = token + '&answerID=' + answerID;
+                    }
                     var body = JSON.stringify({
                         type: type
                     });

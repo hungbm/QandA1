@@ -122,7 +122,7 @@ export class MyProfileComponent implements OnInit {
                 this.avatarUrl = data.obj.avatarUrl;
                 this.name = data.obj.name;
                 var temp = data.obj.summary;
-                this.summary = temp.valueOf();
+                this.summary1 = temp.valueOf();
                 
             }, //Success
             error =>  {

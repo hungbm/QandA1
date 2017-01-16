@@ -113,7 +113,7 @@ System.register(['angular2/core', '../../services/users.service', 'angular2/http
                         _this.avatarUrl = data.obj.avatarUrl;
                         _this.name = data.obj.name;
                         var temp = data.obj.summary;
-                        _this.summary = temp.valueOf();
+                        _this.summary1 = temp.valueOf();
                     }, //Success
                     function (//Success
                         error) {

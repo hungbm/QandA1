@@ -32,12 +32,14 @@ export class PostService {
             .catch((error: Response) => Observable.throw(error));
     }
     
-    submitOwnerModify(type, questionID){
+    submitOwnerModify(type, questionID, answerID = null){
 
             const token = localStorage.getItem('token') 
             ? '?token='+localStorage.getItem('token')
             : '';
-            
+            if (answerID!= null){
+                token = token+'&answerID='+answerID;
+            }
             const body = JSON.stringify({
                 type: type
             });
