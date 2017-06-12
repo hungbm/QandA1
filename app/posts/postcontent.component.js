@@ -73,6 +73,7 @@ System.register(['angular2/core', '../services/homepage.service', '../services/p
                         _this.isAnswered = responseData.obj.isAnswered;
                         _this.owner = responseData.questionOwner;
                         _this.answerOwner = responseData.answerOwner;
+                        console.log(responseData.postState.voted);
                         var ObjState1 = responseData.postState.voted.filter(function (el) {
                             return el.postId === responseData.obj._id;
                         });

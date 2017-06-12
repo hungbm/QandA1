@@ -58,7 +58,7 @@ export class PostContentComponent implements OnInit {
                 this.owner = responseData.questionOwner;
                 this.answerOwner = responseData.answerOwner;
                 
-                
+                console.log(responseData.postState.voted); 
                 
                 var ObjState1 = responseData.postState.voted.filter(function(el){
                             return el.postId === responseData.obj._id;
